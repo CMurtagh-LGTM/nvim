@@ -109,7 +109,8 @@ Plug 'shaunsingh/nord.nvim'
 call plug#end()
 
 " TODO Checkout nvim-dap (with telescope and coq_3p), goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
-" windline or heirline or feline, telescope-vimwiki + vimwiki, beauwilliams/focus.nvim
+" windline or heirline or feline, telescope-vimwiki + vimwiki, beauwilliams/focus.nvim, narutoxy/dim.lua 0.7
+" m-demare/hlargs.nvim, ahmedkhalf/project.nvim
 " checkout later after more development ray-x/navigator.lua
 
 " For when move to lua shift-d/mappy.nvim, Olical/aniseed, https://github.com/nanotee/nvim-lua-guide
@@ -495,7 +496,9 @@ nnoremap <leader>[ :BufferLineCyclePrev<CR>
 nnoremap <leader>b <cmd>exe "BufferLineGoToBuffer " . v:count1<cr>
 nnoremap <leader>d <cmd>exe "Bdel " . v:count1<cr>
 
+" lualine
 lua << EOF
+-- vim.opt.laststatus = 3
 require('lualine').setup {
     options = {
         theme = 'nord',
