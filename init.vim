@@ -92,6 +92,9 @@ Plug 'j-hui/fidget.nvim'
 " Display colours
 Plug 'norcalli/nvim-colorizer.lua'
 
+" Resize focused windows
+Plug 'beauwilliams/focus.nvim'
+
 " Tex
 Plug 'lervag/vimtex'
 
@@ -109,7 +112,7 @@ Plug 'shaunsingh/nord.nvim'
 call plug#end()
 
 " TODO Checkout nvim-dap (with telescope and coq_3p), goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
-" windline or heirline or feline, telescope-vimwiki + vimwiki, beauwilliams/focus.nvim, narutoxy/dim.lua 0.7
+" windline or heirline or feline, telescope-vimwiki + vimwiki, narutoxy/dim.lua 0.7
 " m-demare/hlargs.nvim, ahmedkhalf/project.nvim
 " checkout later after more development ray-x/navigator.lua
 
@@ -131,8 +134,6 @@ set expandtab
 set noshowmode
 " Use system clipboard
 set clipboard=unnamedplus
-" Set ruler for code length
-set colorcolumn=120
 " Allow unsaved hidden buffers
 set hidden
 " Allow mouse clicks
@@ -829,7 +830,7 @@ EOF
 
 " Spectre
 nnoremap <leader>s <cmd>lua require('spectre').open()<cr>
-vnoremap <leader>s <cmd>lua require('spectre').open_visual()<CR>
+vnoremap <leader>s <cmd>lua require('spectre').open_visual()<cr>
 lua << EOF
 require('spectre').setup()
 EOF
@@ -842,6 +843,18 @@ require"fidget".setup{
   },
 }
 EOF
+
+" Focus
+lua << EOF
+require"focus".setup{
+    --excluded_filetypes = {"toggleterm"},
+    number = false,
+    cursorline = false,
+    signcolumn = auto,
+    colorcolumn = {enable = true, width = 120},
+}
+EOF
+nnoremap <leader>m <cmd>FocusMaximise<cr>
 
 " Colourizer
 lua require'colorizer'.setup()
