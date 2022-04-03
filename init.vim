@@ -92,6 +92,9 @@ Plug 'j-hui/fidget.nvim'
 " Display colours
 Plug 'norcalli/nvim-colorizer.lua'
 
+" Lsp diagnostics
+Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
+
 " Tex
 Plug 'lervag/vimtex'
 
@@ -108,10 +111,12 @@ Plug 'elkowar/yuck.vim'
 Plug 'shaunsingh/nord.nvim'
 call plug#end()
 
-" TODO Checkout nvim-dap (with telescope and coq_3p), goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
+" TODO Checkout nvim-dap (with telescope and coq_3p) possibly rcarriga/nvim-dap-ui, goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
 " windline or heirline or feline, telescope-vimwiki + vimwiki, beauwilliams/focus.nvim, narutoxy/dim.lua 0.7
 " m-demare/hlargs.nvim, ahmedkhalf/project.nvim
 " checkout later after more development ray-x/navigator.lua
+
+" rust-tools.nvim
 
 " For when move to lua shift-d/mappy.nvim, Olical/aniseed, https://github.com/nanotee/nvim-lua-guide
 
@@ -271,7 +276,7 @@ vim.api.nvim_set_keymap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap
 require('orgmode').setup_ts_grammar()
 
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"python", "cpp", "latex", "lua", "r", "vim", "java", "gdscript", "godot_resource", "markdown", "org"},
+    ensure_installed = {"python", "cpp", "latex", "lua", "r", "vim", "java", "gdscript", "godot_resource", "markdown", "org", "rust"},
     highlight = {
         enable = true,
         disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
@@ -437,6 +442,11 @@ nvim_lsp.vimls.setup(coq.lsp_ensure_capabilities{
 
 -- gdscript
 nvim_lsp.gdscript.setup(coq.lsp_ensure_capabilities{
+    on_attach = on_attach,
+})
+
+-- rust
+nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities{
     on_attach = on_attach,
 })
 
@@ -845,6 +855,13 @@ EOF
 
 " Colourizer
 lua require'colorizer'.setup()
+
+lua << EOF
+require("lsp_lines").register_lsp_virtual_lines()
+vim.diagnostic.config({
+    virtual_text = false,
+})
+EOF
 
 " Latex
 let g:vimtex_view_general_viewer = 'zathura'
