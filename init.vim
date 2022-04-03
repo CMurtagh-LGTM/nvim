@@ -95,6 +95,9 @@ Plug 'norcalli/nvim-colorizer.lua'
 " Lsp diagnostics
 Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
+" Resize focused windows
+Plug 'beauwilliams/focus.nvim'
+
 " Tex
 Plug 'lervag/vimtex'
 
@@ -112,7 +115,7 @@ Plug 'shaunsingh/nord.nvim'
 call plug#end()
 
 " TODO Checkout nvim-dap (with telescope and coq_3p) possibly rcarriga/nvim-dap-ui, goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
-" windline or heirline or feline, telescope-vimwiki + vimwiki, beauwilliams/focus.nvim, narutoxy/dim.lua 0.7
+" windline or heirline or feline, telescope-vimwiki + vimwiki, narutoxy/dim.lua 0.7
 " m-demare/hlargs.nvim, ahmedkhalf/project.nvim
 " checkout later after more development ray-x/navigator.lua
 
@@ -136,8 +139,6 @@ set expandtab
 set noshowmode
 " Use system clipboard
 set clipboard=unnamedplus
-" Set ruler for code length
-set colorcolumn=120
 " Allow unsaved hidden buffers
 set hidden
 " Allow mouse clicks
@@ -146,7 +147,6 @@ set mouse=a
 set smartcase
 
 " Some easy mappings
-nnoremap Y y$
 nnoremap <c-z> [s1z=``
 inoremap <c-z> <Esc>[s1z=``a
 " something is causing q: not to be <nop>
@@ -752,15 +752,15 @@ let g:gutentags_file_list_command = {
     \ }
 
 " hlslens
-noremap <silent> n <cmd>execute('normal! ' . v:count1 . 'n')<cr>
+nnoremap <silent> n <cmd>execute('normal! ' . v:count1 . 'n')<cr>
             \<cmd>lua require('hlslens').start()<cr>
-noremap <silent> N <cmd>execute('normal! ' . v:count1 . 'N')<cr>
+nnoremap <silent> N <cmd>execute('normal! ' . v:count1 . 'N')<cr>
             \<cmd>lua require('hlslens').start()<cr>
-noremap * *<cmd>lua require('hlslens').start()<cr>
-noremap # #<cmd>lua require('hlslens').start()<cr>
-noremap g* g*<cmd>lua require('hlslens').start()<cr>
-noremap g# g#<cmd>lua require('hlslens').start()<cr>
-noremap <leader>h :nohlsearch<cr>
+nnoremap * *<cmd>lua require('hlslens').start()<cr>
+nnoremap # #<cmd>lua require('hlslens').start()<cr>
+nnoremap g* g*<cmd>lua require('hlslens').start()<cr>
+nnoremap g# g#<cmd>lua require('hlslens').start()<cr>
+nnoremap <leader>h :nohlsearch<cr>
 
 " Scrollbar TODO come back when more developed
 lua << EOF
@@ -789,17 +789,15 @@ EOF
 
 " Yode
 lua require('yode-nvim').setup({})
-map <Leader>yc      :YodeCreateSeditorFloating<CR>
-map <Leader>yr :YodeCreateSeditorReplace<CR>
-nmap <Leader>yd :YodeBufferDelete<cr>
-" imap <Leader>yd <esc>:YodeBufferDelete<cr>
+nnoremap <Leader>yc :YodeCreateSeditorFloating<CR>
+vnoremap <Leader>y :YodeCreateSeditorFloating<CR>
+nnoremap <Leader>yr :YodeCreateSeditorReplace<CR>
+nnoremap <Leader>yd :YodeBufferDelete<cr>
 " these commands fall back to overwritten keys when cursor is in split window
-map <C-W>r :YodeLayoutShiftWinDown<CR>
-map <C-W>R :YodeLayoutShiftWinUp<CR>
-map <C-W>J :YodeLayoutShiftWinBottom<CR>
-map <C-W>K :YodeLayoutShiftWinTop<CR>
-" at the moment this is needed to have no gap for floating windows
-" set showtabline=2
+nnoremap <C-W>r :YodeLayoutShiftWinDown<CR>
+nnoremap <C-W>R :YodeLayoutShiftWinUp<CR>
+nnoremap <C-W>J :YodeLayoutShiftWinBottom<CR>
+nnoremap <C-W>K :YodeLayoutShiftWinTop<CR>
 
 " alpha-nvim
 lua << EOF
@@ -839,7 +837,7 @@ EOF
 
 " Spectre
 nnoremap <leader>s <cmd>lua require('spectre').open()<cr>
-vnoremap <leader>s <cmd>lua require('spectre').open_visual()<CR>
+vnoremap <leader>s <cmd>lua require('spectre').open_visual()<cr>
 lua << EOF
 require('spectre').setup()
 EOF
@@ -852,6 +850,18 @@ require"fidget".setup{
   },
 }
 EOF
+
+" Focus
+lua << EOF
+require"focus".setup{
+    --excluded_filetypes = {"toggleterm"},
+    number = false,
+    cursorline = false,
+    signcolumn = auto,
+    colorcolumn = {enable = true, width = 120},
+}
+EOF
+nnoremap <leader>m <cmd>FocusMaximise<cr>
 
 " Colourizer
 lua require'colorizer'.setup()
