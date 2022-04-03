@@ -142,7 +142,6 @@ set mouse=a
 set smartcase
 
 " Some easy mappings
-nnoremap Y y$
 nnoremap <c-z> [s1z=``
 inoremap <c-z> <Esc>[s1z=``a
 " something is causing q: not to be <nop>
@@ -743,15 +742,15 @@ let g:gutentags_file_list_command = {
     \ }
 
 " hlslens
-noremap <silent> n <cmd>execute('normal! ' . v:count1 . 'n')<cr>
+nnoremap <silent> n <cmd>execute('normal! ' . v:count1 . 'n')<cr>
             \<cmd>lua require('hlslens').start()<cr>
-noremap <silent> N <cmd>execute('normal! ' . v:count1 . 'N')<cr>
+nnoremap <silent> N <cmd>execute('normal! ' . v:count1 . 'N')<cr>
             \<cmd>lua require('hlslens').start()<cr>
-noremap * *<cmd>lua require('hlslens').start()<cr>
-noremap # #<cmd>lua require('hlslens').start()<cr>
-noremap g* g*<cmd>lua require('hlslens').start()<cr>
-noremap g# g#<cmd>lua require('hlslens').start()<cr>
-noremap <leader>h :nohlsearch<cr>
+nnoremap * *<cmd>lua require('hlslens').start()<cr>
+nnoremap # #<cmd>lua require('hlslens').start()<cr>
+nnoremap g* g*<cmd>lua require('hlslens').start()<cr>
+nnoremap g# g#<cmd>lua require('hlslens').start()<cr>
+nnoremap <leader>h :nohlsearch<cr>
 
 " Scrollbar TODO come back when more developed
 lua << EOF
@@ -780,17 +779,15 @@ EOF
 
 " Yode
 lua require('yode-nvim').setup({})
-map <Leader>yc      :YodeCreateSeditorFloating<CR>
-map <Leader>yr :YodeCreateSeditorReplace<CR>
-nmap <Leader>yd :YodeBufferDelete<cr>
-" imap <Leader>yd <esc>:YodeBufferDelete<cr>
+nnoremap <Leader>yc :YodeCreateSeditorFloating<CR>
+vnoremap <Leader>y :YodeCreateSeditorFloating<CR>
+nnoremap <Leader>yr :YodeCreateSeditorReplace<CR>
+nnoremap <Leader>yd :YodeBufferDelete<cr>
 " these commands fall back to overwritten keys when cursor is in split window
-map <C-W>r :YodeLayoutShiftWinDown<CR>
-map <C-W>R :YodeLayoutShiftWinUp<CR>
-map <C-W>J :YodeLayoutShiftWinBottom<CR>
-map <C-W>K :YodeLayoutShiftWinTop<CR>
-" at the moment this is needed to have no gap for floating windows
-" set showtabline=2
+nnoremap <C-W>r :YodeLayoutShiftWinDown<CR>
+nnoremap <C-W>R :YodeLayoutShiftWinUp<CR>
+nnoremap <C-W>J :YodeLayoutShiftWinBottom<CR>
+nnoremap <C-W>K :YodeLayoutShiftWinTop<CR>
 
 " alpha-nvim
 lua << EOF
