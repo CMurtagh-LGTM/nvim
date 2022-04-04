@@ -42,7 +42,6 @@ Plug 'nvim-telescope/telescope-fzy-native.nvim'
 Plug 'nvim-telescope/telescope-bibtex.nvim'
 Plug 'nvim-telescope/telescope-file-browser.nvim'
 Plug 'nvim-telescope/telescope-github.nvim'
-Plug 'rudism/telescope-dict.nvim' 
 
 " Comment generator
 Plug 'danymat/neogen'
@@ -509,6 +508,7 @@ nnoremap <leader>d <cmd>exe "Bdel " . v:count1<cr>
 " lualine
 lua << EOF
 -- vim.opt.laststatus = 3
+local nord = require("nord.colors")
 require('lualine').setup {
     options = {
         theme = 'nord',
@@ -524,15 +524,14 @@ require('lualine').setup {
                         [''] = 'VB',
                     }
                     if mode_names[vim.fn.mode()] == nil then
-                        return vim.fn.mode()
+                        return string.upper(vim.fn.mode())
                     else
                         return mode_names[vim.fn.mode()]
                     end
                 end,
-                upper = true,
-            }
+            },
         },
-        lualine_b = {'branch'},
+        lualine_b = {{'branch', color = {fg = nord.nord4_gui, bg = nord.nord2_gui}}},
         lualine_c = {
             {'filename', path = 1},
             {function() return '%=' end},
@@ -551,10 +550,28 @@ require('lualine').setup {
                     return msg
                 end,
                 icon = ' ',
-                color = {fg = '#ffffff', gui = 'bold'}
+                color = {fg = nord.nord4_gui, gui = 'bold'}
             }
         },
-        lualine_x = {{'filetype', colored = false}},
+        lualine_x = {
+            {
+                function()
+                    if diagnostic_toggle then
+                        return 'd'
+                    else
+                        return ' '
+                    end
+                end,
+                color = function()
+                    if diagnostic_toggle then
+                        return {fg = nord.nord1_gui, bg = nord.nord9_gui}
+                    else
+                        return {fg = nord.nord4_gui, bg = nord.nord1_gui}
+                    end
+                end,
+            },
+            {'filetype', colored = false}
+        },
         lualine_y = {'progress'},
         lualine_z = {'location'}
     },
@@ -642,9 +659,6 @@ nnoremap <leader>fGi <cmd>Telescope gh issues<cr>
 nnoremap <leader>fGp <cmd>Telescope gh pull_request<cr>
 nnoremap <leader>fGg <cmd>Telescope gh gist<cr>
 nnoremap <leader>fGr <cmd>Telescope gh run<cr>
-
-" TODO make dictionary searchable as well as synonyms
-nnoremap <leader>fz <cmd>lua require('telescope').extensions.dict.synonyms()<cr>
 
 lua << EOF
 require('telescope').setup{
@@ -866,12 +880,29 @@ nnoremap <leader>m <cmd>FocusMaximise<cr>
 " Colourizer
 lua require'colorizer'.setup()
 
+" Lsp lines
 lua << EOF
 require("lsp_lines").register_lsp_virtual_lines()
 vim.diagnostic.config({
     virtual_text = false,
+    virtual_lines = true,
 })
+diagnostic_toggle = true
+function _G.toggle_diagnostics()
+    if diagnostic_toggle == true then
+        vim.diagnostic.config({
+            virtual_lines = false,
+        })
+        diagnostic_toggle = false
+    else
+        vim.diagnostic.config({
+            virtual_lines = true,
+        })
+        diagnostic_toggle = true
+    end
+end
 EOF
+nnoremap <leader>v <cmd>exec v:lua.toggle_diagnostics()<cr>
 
 " Latex
 let g:vimtex_view_general_viewer = 'zathura'
