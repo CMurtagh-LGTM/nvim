@@ -275,7 +275,7 @@ vim.api.nvim_set_keymap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap
 require('orgmode').setup_ts_grammar()
 
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"python", "cpp", "latex", "lua", "r", "vim", "java", "gdscript", "godot_resource", "markdown", "org", "rust"},
+    ensure_installed = {"python", "cpp", "lua", "latex", "r", "vim", "java", "gdscript", "godot_resource", "markdown", "org", "rust"},
     highlight = {
         enable = true,
         disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
@@ -514,6 +514,7 @@ require('lualine').setup {
         theme = 'nord',
         component_separators = "",
         section_separators = "",
+        globalstatus = true,
     },
     sections = {
         lualine_a = {
