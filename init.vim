@@ -97,6 +97,9 @@ Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 " Resize focused windows
 Plug 'beauwilliams/focus.nvim'
 
+" Dim unused variables
+Plug 'narutoxy/dim.lua'
+
 " Tex
 Plug 'lervag/vimtex'
 
@@ -904,6 +907,9 @@ function _G.toggle_diagnostics()
 end
 EOF
 nnoremap <leader>v <cmd>exec v:lua.toggle_diagnostics()<cr>
+
+" Dim
+lua require('dim').setup({})
 
 " Latex
 let g:vimtex_view_general_viewer = 'zathura'
