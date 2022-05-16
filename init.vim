@@ -117,7 +117,7 @@ Plug 'shaunsingh/nord.nvim'
 call plug#end()
 
 " TODO Checkout nvim-dap (with telescope and coq_3p) possibly rcarriga/nvim-dap-ui, goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
-" windline or heirline or feline, telescope-vimwiki + vimwiki, narutoxy/dim.lua 0.7
+" windline or heirline or feline, telescope-vimwiki + vimwiki, narutoxy/dim.lua 0.7, ldelossa/gh.nvim
 " m-demare/hlargs.nvim, ahmedkhalf/project.nvim
 " checkout later after more development ray-x/navigator.lua
 
@@ -147,6 +147,8 @@ set hidden
 set mouse=a
 " Use smartcase in searching
 set smartcase
+" Make the cursor stay in the middle quarter
+set scrolloff=12
 
 " Some easy mappings
 nnoremap <c-z> [s1z=``
