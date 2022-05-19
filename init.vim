@@ -182,6 +182,7 @@ require("which-key").register({
 EOF
 nnoremap  <cmd>WhichKey<cr>
 inoremap  <cmd>WhichKey<cr>
+vnoremap  <cmd>WhichKey<cr>
 
 " Git Signs
 lua << EOF
@@ -818,7 +819,7 @@ lua require('yode-nvim').setup({})
 nnoremap <Leader>yc :YodeCreateSeditorFloating<CR>
 vnoremap <Leader>y :YodeCreateSeditorFloating<CR>
 nnoremap <Leader>yr :YodeCreateSeditorReplace<CR>
-nnoremap <Leader>yd :YodeBufferDelete<cr>
+nnoremap <Leader>yd :YodeBufferDelete<CR>
 " these commands fall back to overwritten keys when cursor is in split window
 nnoremap <C-W>r :YodeLayoutShiftWinDown<CR>
 nnoremap <C-W>R :YodeLayoutShiftWinUp<CR>
