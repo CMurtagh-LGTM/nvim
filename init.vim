@@ -248,6 +248,12 @@ npairs.setup({
 
 local Rule = require('nvim-autopairs.rule')
 npairs.add_rule(Rule("\\(","\\)","tex"))
+npairs.add_rule(Rule("\\[","\\]","tex"))
+npairs.add_rule(Rule("\\{","\\}","tex"))
+npairs.add_rule(Rule("\\left(","\\right)","tex"))
+npairs.add_rule(Rule("\\left[","\\right]","tex"))
+npairs.add_rule(Rule("\\left{","\\right}","tex"))
+npairs.add_rule(Rule("\\left.","\\right.","tex"))
 
 -- Decide to do either coq or npairs keybinds
 
