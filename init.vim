@@ -117,9 +117,9 @@ Plug 'shaunsingh/nord.nvim'
 call plug#end()
 
 " TODO Checkout nvim-dap (with telescope and coq_3p) possibly rcarriga/nvim-dap-ui, goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
-" windline or heirline or feline, telescope-vimwiki + vimwiki, narutoxy/dim.lua 0.7, ldelossa/gh.nvim
+" windline or heirline or feline, telescope-vimwiki + vimwiki, ldelossa/gh.nvim
 " m-demare/hlargs.nvim, ahmedkhalf/project.nvim
-" checkout later after more development ray-x/navigator.lua
+" checkout later after more development ray-x/navigator.lua, esensar/nvim-dev-container
 
 " rust-tools.nvim
 
@@ -488,34 +488,32 @@ let g:cursorhold_updatetime = 500
 " bufferline
 set termguicolors
 lua << EOF
-local bufferline = require'bufferline'
-bufferline.setup {
-  options = {
-    numbers = function(opts)
-        return string.format('%s', opts.ordinal)
-    end,
-  }
-}
-
-function _G.bdel(num)
-    bufferline.buf_exec(
-        num,
-        function(buf, visible_buffers)
-            vim.cmd('bdelete '..buf.id)
-        end
+local bufferline = require"bufferline"
+local function safe_delete_buffer(num)
+    xpcall(
+        vim.cmd,
+        function(err)
+            print(err)
+        end,
+        string.format("bdelete %d", num)
     )
 end
-
-vim.cmd [[
-    command -count Bdel lua _G.bdel(<count>)
-]]
+bufferline.setup {
+  options = {
+    numbers = "none",
+    tab_size = 7,
+    show_close_icon = false,
+    close_command = safe_delete_buffer,
+    right_mouse_command = safe_delete_buffer,
+  }
+}
 EOF
 
-" These commands will navigate through buffers in order regardless of which mode you are using
-nnoremap <leader>] :BufferLineCycleNext<CR>
-nnoremap <leader>[ :BufferLineCyclePrev<CR>
-nnoremap <leader>b <cmd>exe "BufferLineGoToBuffer " . v:count1<cr>
-nnoremap <leader>d <cmd>exe "Bdel " . v:count1<cr>
+" These commands will navigate through buffers in order
+nnoremap <leader>] <cmd>BufferLineCycleNext<cr>
+nnoremap <leader>[ <cmd>BufferLineCyclePrev<cr>
+nnoremap <leader>b <cmd>BufferLinePick<cr>
+nnoremap <leader>d <cmd>BufferLinePickClose<cr>
 
 " lualine
 lua << EOF
