@@ -899,21 +899,37 @@ vim.diagnostic.config({
     virtual_lines = true,
 })
 diagnostic_toggle = true
+function _G.unset_line_diagnostics()
+    vim.diagnostic.config({
+        virtual_lines = false,
+    })
+end
+function _G.set_line_diagnostics()
+    vim.diagnostic.config({
+        virtual_lines = true,
+    })
+end
 function _G.toggle_diagnostics()
     if diagnostic_toggle == true then
-        vim.diagnostic.config({
-            virtual_lines = false,
-        })
+        _G.unset_line_diagnostics()
         diagnostic_toggle = false
     else
-        vim.diagnostic.config({
-            virtual_lines = true,
-        })
+        _G.set_line_diagnostics()
         diagnostic_toggle = true
     end
 end
+function _G.reset_line_diagnostics()
+    if diagnostic_toggle == true then
+        _G.set_line_diagnostics()
+    end
+end
 EOF
-nnoremap <leader>v <cmd>exec v:lua.toggle_diagnostics()<cr>
+nnoremap <leader>v <cmd>call v:lua.toggle_diagnostics()<cr>
+augroup diagnostics
+    au!
+    autocmd InsertEnter * call v:lua.unset_line_diagnostics()
+    autocmd InsertLeave * call v:lua.reset_line_diagnostics()
+augroup END
 
 " Dim
 lua require('dim').setup({})
