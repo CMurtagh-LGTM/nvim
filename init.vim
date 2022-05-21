@@ -33,7 +33,7 @@ Plug 'ludovicchabant/vim-gutentags'
 " CursorHold time changer
 Plug 'antoinemadec/FixCursorHold.nvim'
 
-" Dependency for telescope, git signs, yode, spectre
+" Dependency for telescope, git signs, spectre
 Plug 'nvim-lua/plenary.nvim'
 
 " Finder 
@@ -72,9 +72,6 @@ Plug 'kevinhwang91/nvim-hlslens'
 
 " Scrollbar
 Plug 'petertriho/nvim-scrollbar'
-
-" Floating text windows
-Plug 'hoschi/yode-nvim'
 
 " Startup Screen
 Plug 'goolord/alpha-nvim'
@@ -811,18 +808,6 @@ require("scrollbar").setup{
     },
 }
 EOF
-
-" Yode
-lua require('yode-nvim').setup({})
-nnoremap <Leader>yc :YodeCreateSeditorFloating<CR>
-vnoremap <Leader>y :YodeCreateSeditorFloating<CR>
-nnoremap <Leader>yr :YodeCreateSeditorReplace<CR>
-nnoremap <Leader>yd :YodeBufferDelete<CR>
-" these commands fall back to overwritten keys when cursor is in split window
-nnoremap <C-W>r :YodeLayoutShiftWinDown<CR>
-nnoremap <C-W>R :YodeLayoutShiftWinUp<CR>
-nnoremap <C-W>J :YodeLayoutShiftWinBottom<CR>
-nnoremap <C-W>K :YodeLayoutShiftWinTop<CR>
 
 " alpha-nvim
 lua << EOF
