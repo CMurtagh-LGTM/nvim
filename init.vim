@@ -8,7 +8,7 @@ Plug 'brymer-meneses/grammar-guard.nvim' " Grammar in markdown
 " Autocomplete 
 Plug 'ms-jpq/coq_nvim', {'do' : ':COQdeps','branch': 'coq'}
 Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-Plug 'ms-jpq/coq.thirdparty', {'branch': '3p'}
+Plug 'CMurtagh-LGTM/coq.thirdparty', {'branch': 'cmurtagh/figlet-fonts'}
 
 " Syntax
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -222,12 +222,13 @@ inoremap <C-H> <cmd>lua if require("neogen").jumpable() then require("neogen").j
 nnoremap <C-H> <cmd>lua if require("neogen").jumpable() then require("neogen").jump_next() else COQ.Nav_mark() end<cr>
 
 lua << EOF
--- TODO check other modules
+-- TODO when add dap, add dap mode
 require("coq_3p") {
     { src = "nvimlua", short_name = "nLUA", conf_only = true },
     { src = "vimtex", short_name = "vTEX" },
     { src = "bc", short_name = "MATH", precision = 6 },
     { src = "orgmode", short_name = "ORG" },
+    { src = "figlet", short_name = "BIG", trigger = "!big", fonts = {"/usr/share/figlet/fonts/standard.flf"}},
 }
 EOF
 
