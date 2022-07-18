@@ -1,121 +1,127 @@
-call plug#begin('~/.local/share/nvim/plugged')
-" Language server protocol client
-Plug 'neovim/nvim-lspconfig'
-Plug 'kosayoda/nvim-lightbulb' " Code action
-Plug 'ray-x/lsp_signature.nvim' " Signature Highlight
-Plug 'brymer-meneses/grammar-guard.nvim' " Grammar in markdown
+lua << EOF
+return require'packer'.startup({function()
+use 'wbthomason/packer.nvim'
 
-" Autocomplete 
-Plug 'ms-jpq/coq_nvim', {'do' : ':COQdeps','branch': 'coq'}
-Plug 'ms-jpq/coq.artifacts', {'branch': 'artifacts'}
-Plug 'CMurtagh-LGTM/coq.thirdparty', {'branch': 'cmurtagh/figlet-fonts'}
+-- Language server protocol client
+use 'neovim/nvim-lspconfig'
+use 'kosayoda/nvim-lightbulb' -- Code action
+use 'ray-x/lsp_signature.nvim' -- Signature Highlight
+use 'brymer-meneses/grammar-guard.nvim' -- Grammar in markdown
 
-" Syntax
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/nvim-treesitter-refactor'
-Plug 'nvim-treesitter/nvim-treesitter-textobjects'
+-- Autocomplete 
+use {'ms-jpq/coq_nvim', run = ':COQdeps', branch = 'coq'}
+use {'ms-jpq/coq.artifacts', branch = 'artifacts'}
+use {'CMurtagh-LGTM/coq.thirdparty', branch = 'cmurtagh/figlet-fonts'}
 
-" Icons
-Plug 'kyazdani42/nvim-web-devicons'
+-- Syntax
+use {'nvim-treesitter/nvim-treesitter', run = ':TSUpdate'}
+use 'nvim-treesitter/nvim-treesitter-refactor'
+use 'nvim-treesitter/nvim-treesitter-textobjects'
 
-" Powerline
-Plug 'hoob3rt/lualine.nvim'
+-- Icons
+use 'kyazdani42/nvim-web-devicons'
 
-" Pretty tabs
-Plug 'akinsho/bufferline.nvim'
+-- Powerline
+use 'hoob3rt/lualine.nvim'
 
-" Comments
-Plug 'numToStr/Comment.nvim'
+-- Pretty tabs
+use 'akinsho/bufferline.nvim'
 
-" Tag manager
-Plug 'ludovicchabant/vim-gutentags'
+-- Comments
+use 'numToStr/Comment.nvim'
 
-" CursorHold time changer
-Plug 'antoinemadec/FixCursorHold.nvim'
+-- Tag manager
+use 'ludovicchabant/vim-gutentags'
 
-" Dependency for telescope, git signs, spectre
-Plug 'nvim-lua/plenary.nvim'
+-- CursorHold time changer
+use 'antoinemadec/FixCursorHold.nvim'
 
-" Finder 
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzy-native.nvim'
-Plug 'nvim-telescope/telescope-bibtex.nvim'
-Plug 'nvim-telescope/telescope-file-browser.nvim'
-Plug 'nvim-telescope/telescope-github.nvim'
+-- Dependency for telescope, git signs
+use 'nvim-lua/plenary.nvim'
 
-" Comment generator
-Plug 'danymat/neogen'
+-- Finder 
+use 'nvim-telescope/telescope.nvim'
+use 'nvim-telescope/telescope-fzy-native.nvim'
+use 'nvim-telescope/telescope-bibtex.nvim'
+use 'nvim-telescope/telescope-file-browser.nvim'
+use 'nvim-telescope/telescope-github.nvim'
 
-" Terminal
-Plug 'akinsho/toggleterm.nvim'
+-- Comment generator
+use 'danymat/neogen'
 
-" Git
-Plug 'lewis6991/gitsigns.nvim'
+-- Terminal
+use 'akinsho/toggleterm.nvim'
 
-" Undo tree
-Plug 'mbbill/undotree'
+-- Git
+use 'lewis6991/gitsigns.nvim'
 
-" Better wildmenu
-Plug 'gelguy/wilder.nvim', { 'do': ':UpdateRemotePlugins' }
+-- Undo tree
+use 'mbbill/undotree'
 
-" Intent markers
-Plug 'lukas-reineke/indent-blankline.nvim'
+-- Better wildmenu
+use {'gelguy/wilder.nvim', run = ':UpdateRemotePlugins' }
 
-" Keymap explainer
-Plug 'folke/which-key.nvim'
+-- Intent markers
+use 'lukas-reineke/indent-blankline.nvim'
 
-" Auto pairs
-Plug 'windwp/nvim-autopairs'
+-- Keymap explainer
+use 'folke/which-key.nvim'
 
-" Virtual text on search, required by scrollbar
-Plug 'kevinhwang91/nvim-hlslens'
+-- Auto pairs
+use 'windwp/nvim-autopairs'
 
-" Scrollbar
-Plug 'petertriho/nvim-scrollbar'
+-- Virtual text on search, required by scrollbar
+use 'kevinhwang91/nvim-hlslens'
 
-" Startup Screen
-Plug 'goolord/alpha-nvim'
+-- Scrollbar
+use 'petertriho/nvim-scrollbar'
 
-" Search and replace in workspace
-Plug 'windwp/nvim-spectre'
+-- Startup Screen
+use 'goolord/alpha-nvim'
 
-" Virtual text on close brackets
-Plug 'haringsrob/nvim_context_vt'
+-- Virtual text on close brackets
+use 'haringsrob/nvim_context_vt'
 
-" See lsp progress
-Plug 'j-hui/fidget.nvim'
+-- See lsp progress
+use 'j-hui/fidget.nvim'
 
-" Display colours
-Plug 'norcalli/nvim-colorizer.lua'
+-- Display colours
+use 'norcalli/nvim-colorizer.lua'
 
-" Lsp diagnostics
-Plug 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
+-- Lsp diagnostics
+use 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
-" Resize focused windows
-Plug 'beauwilliams/focus.nvim'
+-- Resize focused windows
+use 'beauwilliams/focus.nvim'
 
-" Dim unused variables
-Plug 'narutoxy/dim.lua'
+-- Dim unused variables
+use 'narutoxy/dim.lua'
 
-" Tex
-Plug 'lervag/vimtex'
+-- Tex
+use 'lervag/vimtex'
 
-" orgmode
-Plug 'nvim-orgmode/orgmode'
+-- orgmode
+use 'nvim-orgmode/orgmode'
 
-" sxhkd highlighting
-Plug 'kovetskiy/sxhkd-vim'
+-- sxhkd highlighting
+use 'kovetskiy/sxhkd-vim'
 
-" eww yuck highlighting
-Plug 'elkowar/yuck.vim'
+-- eww yuck highlighting
+use 'elkowar/yuck.vim'
 
-" Nord colour theme
-Plug 'shaunsingh/nord.nvim'
-call plug#end()
+-- Nord colour theme
+use 'shaunsingh/nord.nvim'
+end,
+config = {
+  display = {
+    open_fn = require('packer.util').float,
+  }
+}})
+EOF
 
 " TODO Checkout nvim-dap (with telescope and coq_3p) possibly rcarriga/nvim-dap-ui, goto-preview, telescope-lsp-handlers.nvim, nvim-code-action-menu,
 " windline or heirline or feline, telescope-vimwiki + vimwiki, ldelossa/gh.nvim
-" m-demare/hlargs.nvim, ahmedkhalf/project.nvim
+" m-demare/hlargs.nvim, ahmedkhalf/project.nvim, anuvyklack/hydra.nvim 
 " checkout later after more development ray-x/navigator.lua, esensar/nvim-dev-container
 
 " rust-tools.nvim
@@ -146,6 +152,12 @@ set mouse=a
 set smartcase
 " Make the cursor stay in the middle quarter
 set scrolloff=12
+" Line wrapping
+set nowrap
+" Always show sign column
+set signcolumn=yes
+" Space ftw
+let mapleader = " "
 
 " Some easy mappings
 nnoremap <c-z> [s1z=``
@@ -193,21 +205,21 @@ require('gitsigns').setup{
         end
 
         -- Navigation
-        map('n', '<leader>}', '<cmd>Gitsigns next_hunk<CR>')
-        map('n', '<leader>{', '<cmd>Gitsigns prev_hunk<CR>')
+        map('n', '<leader>]', '<cmd>Gitsigns next_hunk<CR>')
+        map('n', '<leader>[', '<cmd>Gitsigns prev_hunk<CR>')
 
         -- Actions
-        map('n', '<leader>Gs', '<cmd>Gitsigns stage_hunk<CR>')
-        map('v', '<leader>Gs', '<cmd>Gitsigns stage_hunk<CR>')
-        map('n', '<leader>Gr', '<cmd>Gitsigns reset_hunk<CR>')
-        map('v', '<leader>Gr', '<cmd>Gitsigns reset_hunk<CR>')
-        map('n', '<leader>GS', '<cmd>Gitsigns stage_buffer<CR>')
-        map('n', '<leader>Gu', '<cmd>Gitsigns undo_stage_hunk<CR>')
-        map('n', '<leader>GR', '<cmd>Gitsigns reset_buffer<CR>')
-        map('n', '<leader>Gp', '<cmd>Gitsigns preview_hunk<CR>')
-        map('n', '<leader>Gd', '<cmd>Gitsigns diffthis<CR>')
-        map('n', '<leader>GD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
-        map('n', '<leader>Gt', '<cmd>Gitsigns toggle_deleted<CR>')
+        map('n', '<leader>gs', '<cmd>Gitsigns stage_hunk<CR>')
+        map('v', '<leader>gs', '<cmd>Gitsigns stage_hunk<CR>')
+        map('n', '<leader>gr', '<cmd>Gitsigns reset_hunk<CR>')
+        map('v', '<leader>gr', '<cmd>Gitsigns reset_hunk<CR>')
+        map('n', '<leader>gS', '<cmd>Gitsigns stage_buffer<CR>')
+        map('n', '<leader>gu', '<cmd>Gitsigns undo_stage_hunk<CR>')
+        map('n', '<leader>gR', '<cmd>Gitsigns reset_buffer<CR>')
+        map('n', '<leader>gp', '<cmd>Gitsigns preview_hunk<CR>')
+        map('n', '<leader>gd', '<cmd>Gitsigns diffthis<CR>')
+        map('n', '<leader>gD', '<cmd>lua require"gitsigns".diffthis("~")<CR>')
+        map('n', '<leader>gt', '<cmd>Gitsigns toggle_deleted<CR>')
     end
 }
 EOF
@@ -425,6 +437,7 @@ local on_attach = function(client, bufnr)
     buf_set_keymap('n', '<leader><leader>q', '<cmd>lua vim.lsp.diagnostic.set_loclist()<CR>', opts)
     buf_set_keymap('n', '<leader><leader>l', '<cmd>lua print(vim.inspect(vim.lsp.buf.list_workspace_folders()))<CR>', opts)    
 
+    -- TODO Maybe winbar?
     require "lsp_signature".on_attach({
         floating_window = true,
         hint_enable = false,
@@ -573,21 +586,8 @@ nvim_lsp.jdtls.setup(coq.lsp_ensure_capabilities{
 
 EOF
 
-" TODO make toggle able
-" augroup before_save
-    " au!
-    " autocmd BufWritePre * lua vim.lsp.buf.formatting_sync()
-" augroup END
-
 " Code action lightbulb
 let g:cursorhold_updatetime = 500
-
-" TODO make toggle able
-"augroup hover
-"    au!
-"    autocmd CursorHold *.py lua if vim.fn.pumvisible() then vim.lsp.buf.hover() end
-"    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb{sign={enabled=false},virtual_text={enabled=true}}
-"augroup END
 
 " bufferline
 set termguicolors
@@ -614,8 +614,8 @@ bufferline.setup {
 EOF
 
 " These commands will navigate through buffers in order
-nnoremap <leader>] <cmd>BufferLineCycleNext<cr>
-nnoremap <leader>[ <cmd>BufferLineCyclePrev<cr>
+nnoremap <leader>} <cmd>BufferLineCycleNext<cr>
+nnoremap <leader>{ <cmd>BufferLineCyclePrev<cr>
 nnoremap <leader>b <cmd>BufferLinePick<cr>
 nnoremap <leader>d <cmd>BufferLinePickClose<cr>
 
@@ -750,13 +750,13 @@ nnoremap <leader>ff <cmd>Telescope file_browser<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
 
-nnoremap <leader>flr <cmd>Telescope lsp_references<cr>
-nnoremap <leader>fli <cmd>Telescope lsp_implementations<cr>
-nnoremap <leader>fld <cmd>Telescope lsp_definitions<cr>
-nnoremap <leader>flc <cmd>Telescope lsp_code_actions<cr>
-nnoremap <leader>fls <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <leader>flw <cmd>Telescope lsp_workspace_symbols<cr>
-nnoremap <leader>flp <cmd>Telescope diagnostics<cr>
+nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
+nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
+nnoremap <leader>ld <cmd>Telescope lsp_definitions<cr>
+nnoremap <leader>lc <cmd>Telescope lsp_code_actions<cr>
+nnoremap <leader>ls <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader>lw <cmd>Telescope lsp_workspace_symbols<cr>
+nnoremap <leader>lp <cmd>Telescope diagnostics<cr>
 
 nnoremap <leader>fB <cmd>Telescope bibtex cite<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
@@ -769,11 +769,11 @@ nnoremap <leader>ft <cmd>Telescope treesitter<cr>
 nnoremap <leader>f<leader> <cmd>Telescope builtin<cr>
 nnoremap <leader>fp <cmd>Telescope planets<cr>
 
-nnoremap <leader>fg <cmd>Telescope git_status<cr>
-nnoremap <leader>fGi <cmd>Telescope gh issues<cr>
-nnoremap <leader>fGp <cmd>Telescope gh pull_request<cr>
-nnoremap <leader>fGg <cmd>Telescope gh gist<cr>
-nnoremap <leader>fGr <cmd>Telescope gh run<cr>
+nnoremap <leader>g<leader> <cmd>Telescope git_status<cr>
+nnoremap <leader>Gi <cmd>Telescope gh issues<cr>
+nnoremap <leader>Gp <cmd>Telescope gh pull_request<cr>
+nnoremap <leader>Gg <cmd>Telescope gh gist<cr>
+nnoremap <leader>Gr <cmd>Telescope gh run<cr>
 
 lua << EOF
 require('telescope').setup{
@@ -837,7 +837,7 @@ function _lazygit_toggle()
   lazygit:toggle()
 end
 
-vim.api.nvim_set_keymap("n", "<leader>g", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
+vim.api.nvim_set_keymap("n", "<leader>gg", "<cmd>lua _lazygit_toggle()<CR>", {noremap = true, silent = true})
 
 function _G.set_terminal_keymaps()
   local opts = {noremap = true}
@@ -939,7 +939,7 @@ dashboard.section.buttons.val = {
     dashboard.button( "f", "  > Find file", "<cmd>Telescope find_files<cr>"),
 	dashboard.button("t", "  > Find text", "<cmd>Telescope live_grep <cr>"),
     dashboard.button( "r", "  > Recent"   , "<cmd>Telescope oldfiles<cr>"),
-    dashboard.button("p", "  > Update plugins", "<cmd>PlugUpgrade<bar>PlugUpdate<cr>"),
+    dashboard.button("p", "  > Update plugins", "<cmd>PackerSync<cr>"),
     dashboard.button( "q", "  > Quit NVIM", "<cmd>qa<cr>"),
 }
 
@@ -950,13 +950,6 @@ alpha.setup(dashboard.opts)
 vim.cmd([[
     autocmd FileType alpha setlocal nofoldenable
 ]])
-EOF
-
-" Spectre
-nnoremap <leader>s <cmd>lua require('spectre').open()<cr>
-vnoremap <leader>s <cmd>lua require('spectre').open_visual()<cr>
-lua << EOF
-require('spectre').setup()
 EOF
 
 " Figet
@@ -1023,6 +1016,12 @@ augroup diagnostics
     autocmd InsertLeave * call v:lua.reset_line_diagnostics()
 augroup END
 
+" TODO make toggle able
+"augroup hover
+"    au!
+"    autocmd CursorHold *.py lua if vim.fn.pumvisible() then vim.lsp.buf.hover() end
+"    autocmd CursorHold,CursorHoldI * lua require'nvim-lightbulb'.update_lightbulb{sign={enabled=false},virtual_text={enabled=true}}
+"augroup END
 " Dim
 lua require('dim').setup({})
 
