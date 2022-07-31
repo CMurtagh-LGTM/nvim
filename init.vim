@@ -147,8 +147,6 @@ set mouse=a
 set smartcase
 " Make the cursor stay in the middle quarter
 set scrolloff=12
-" Line wrapping
-set nowrap
 " Always show sign column
 set signcolumn=yes
 " Space ftw
@@ -646,13 +644,13 @@ nnoremap <leader>ff <cmd>Telescope file_browser<cr>
 nnoremap <leader>fg <cmd>Telescope live_grep<cr>
 nnoremap <leader>fo <cmd>Telescope oldfiles<cr>
 
-nnoremap <leader>lr <cmd>Telescope lsp_references<cr>
-nnoremap <leader>li <cmd>Telescope lsp_implementations<cr>
-nnoremap <leader>ld <cmd>Telescope lsp_definitions<cr>
-nnoremap <leader>lc <cmd>Telescope lsp_code_actions<cr>
-nnoremap <leader>ls <cmd>Telescope lsp_document_symbols<cr>
-nnoremap <leader>lw <cmd>Telescope lsp_workspace_symbols<cr>
-nnoremap <leader>lp <cmd>Telescope diagnostics<cr>
+nnoremap <leader><leader>r <cmd>Telescope lsp_references<cr>
+nnoremap <leader><leader>i <cmd>Telescope lsp_implementations<cr>
+nnoremap <leader><leader>d <cmd>Telescope lsp_definitions<cr>
+nnoremap <leader><leader>c <cmd>Telescope lsp_code_actions<cr>
+nnoremap <leader><leader>s <cmd>Telescope lsp_document_symbols<cr>
+nnoremap <leader><leader>w <cmd>Telescope lsp_workspace_symbols<cr>
+nnoremap <leader><leader>p <cmd>Telescope diagnostics<cr>
 
 nnoremap <leader>fB <cmd>Telescope bibtex cite<cr>
 nnoremap <leader>fh <cmd>Telescope help_tags<cr>
