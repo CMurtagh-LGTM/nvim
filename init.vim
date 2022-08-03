@@ -151,6 +151,7 @@ set scrolloff=12
 set signcolumn=yes
 " Space ftw
 let mapleader = " "
+let maplocalleader = " "
 
 " Some easy mappings
 nnoremap <c-z> [s1z=``
@@ -924,7 +925,7 @@ let g:vimtex_view_general_viewer = 'zathura'
 
 " R
 " TODO help command?
-augroup R_commands
-    au!
-    autocmd FileType rmd map <Leader>ll :let file_name=expand('%:r')<enter> :!echo<space>"require(rmarkdown);<space>render('<c-r>%', output_file = '<c-r>=file_name<enter>.pdf')"<space>\|<space>R<space>--vanilla<enter>
-augroup END
+" augroup R_commands
+"     au!
+"     autocmd FileType rmd map <Leader>ll :!echo<space>"require(rmarkdown);<space>render(<afile>:p:S)"<space>\|<space>R<space>--vanilla<enter>
+" augroup END
