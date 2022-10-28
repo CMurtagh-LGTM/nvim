@@ -16,3 +16,8 @@ innerproducts
 innerproduct
 uri
 backend
+homoscedastic
+hetroscedastic
+Levene
+autocovariance
+varve

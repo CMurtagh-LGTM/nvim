@@ -84,7 +84,7 @@ use 'j-hui/fidget.nvim'
 use 'norcalli/nvim-colorizer.lua'
 
 -- Lsp diagnostics
-use 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
+-- use 'https://git.sr.ht/~whynothugo/lsp_lines.nvim'
 
 -- Resize focused windows
 use 'beauwilliams/focus.nvim'
@@ -274,7 +274,7 @@ vim.api.nvim_set_keymap('i', '<bs>', 'v:lua.MUtils.BS()', { expr = true, noremap
 require('orgmode').setup_ts_grammar()
 
 require'nvim-treesitter.configs'.setup {
-    ensure_installed = {"python", "cpp", "lua", "latex", "r", "vim", "java", "gdscript", "godot_resource", "markdown", "org", "rust"},
+    ensure_installed = {"python", "cpp", "lua", "latex", "r", "vim", "java", "gdscript", "godot_resource", "markdown", "org", "rust", "zig"},
     highlight = {
         enable = true,
         disable = {'org'}, -- Remove this to use TS highlighter for some of the highlights (Experimental)
@@ -446,6 +446,11 @@ nvim_lsp.gdscript.setup(coq.lsp_ensure_capabilities{
 
 -- rust
 nvim_lsp.rust_analyzer.setup(coq.lsp_ensure_capabilities{
+    on_attach = on_attach,
+})
+
+-- zig
+nvim_lsp.zls.setup(coq.lsp_ensure_capabilities{
     on_attach = on_attach,
 })
 
@@ -870,46 +875,6 @@ nnoremap <leader>m <cmd>FocusMaximise<cr>
 
 " Colourizer
 lua require'colorizer'.setup()
-
-" Lsp lines
-lua << EOF
-require("lsp_lines").register_lsp_virtual_lines()
-vim.diagnostic.config({
-    virtual_text = false,
-    virtual_lines = true,
-})
-diagnostic_toggle = true
-function _G.unset_line_diagnostics()
-    vim.diagnostic.config({
-        virtual_lines = false,
-    })
-end
-function _G.set_line_diagnostics()
-    vim.diagnostic.config({
-        virtual_lines = true,
-    })
-end
-function _G.toggle_diagnostics()
-    if diagnostic_toggle == true then
-        _G.unset_line_diagnostics()
-        diagnostic_toggle = false
-    else
-        _G.set_line_diagnostics()
-        diagnostic_toggle = true
-    end
-end
-function _G.reset_line_diagnostics()
-    if diagnostic_toggle == true then
-        _G.set_line_diagnostics()
-    end
-end
-EOF
-nnoremap <leader>v <cmd>call v:lua.toggle_diagnostics()<cr>
-augroup diagnostics
-    au!
-    autocmd InsertEnter * call v:lua.unset_line_diagnostics()
-    autocmd InsertLeave * call v:lua.reset_line_diagnostics()
-augroup END
 
 " TODO make toggle able
 "augroup hover
