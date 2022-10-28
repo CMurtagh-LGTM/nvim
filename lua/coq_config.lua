@@ -1,6 +1,6 @@
 require('packer').use{'ms-jpq/coq_nvim', run = ':COQdeps', branch = 'coq'}
 require('packer').use{'ms-jpq/coq.artifacts', branch = 'artifacts', requires = 'ms-jpq/coq_nvim'}
-require('packer').use{'CMurtagh-LGTM/coq.thirdparty', branch = 'cmurtagh/figlet-fonts', requires = 'ms-jpq/coq_nvim'}
+require('packer').use{'ms-jpg/coq.thirdparty', requires = 'ms-jpq/coq_nvim', branch = '3p'}
 
 vim.g.coq_settings = {keymap = {recommended = false, jump_to_mark = ""}, auto_start = "shut-up"}
 vim.api.nvim_set_keymap("i", "<Esc>", "pumvisible() ? \"\\<C-e><Esc>\" : \"\\<Esc>\"", {noremap = true, silent = true, expr = true})
