@@ -104,8 +104,8 @@ use 'kovetskiy/sxhkd-vim'
 -- eww yuck highlighting
 use 'elkowar/yuck.vim'
 
--- Nord colour theme
-use 'shaunsingh/nord.nvim'
+-- everforest colour theme
+use 'sainnhe/everforest'
 end,
 config = {
   display = {
@@ -124,7 +124,10 @@ EOF
 " For when move to lua shift-d/mappy.nvim, Olical/aniseed, https://github.com/nanotee/nvim-lua-guide
 
 " Theme
-colorscheme nord
+set termguicolors
+set background=dark
+let g:everforest_background='medium'
+colorscheme everforest
 
 " Line numbers
 set number
@@ -152,6 +155,8 @@ set signcolumn=yes
 " Space ftw
 let mapleader = " "
 let maplocalleader = " "
+" No folds
+set foldlevelstart=99
 
 " Some easy mappings
 nnoremap <c-z> [s1z=``
@@ -490,7 +495,6 @@ EOF
 let g:cursorhold_updatetime = 500
 
 " bufferline
-set termguicolors
 lua << EOF
 local bufferline = require"bufferline"
 local function safe_delete_buffer(num)
@@ -522,10 +526,9 @@ nnoremap <leader>d <cmd>BufferLinePickClose<cr>
 " lualine
 lua << EOF
 -- vim.opt.laststatus = 3
-local nord = require("nord.colors")
 require('lualine').setup {
     options = {
-        theme = 'nord',
+        theme = 'everforest',
         component_separators = "",
         section_separators = "",
         globalstatus = true,
@@ -546,7 +549,7 @@ require('lualine').setup {
                 end,
             },
         },
-        lualine_b = {{'branch', color = {fg = nord.nord4_gui, bg = nord.nord2_gui}}},
+        lualine_b = {{'branch', }},
         lualine_c = {
             {'filename', path = 1},
             {function() return '%=' end},
@@ -565,26 +568,10 @@ require('lualine').setup {
                     return msg
                 end,
                 icon = ' ',
-                color = {fg = nord.nord4_gui, gui = 'bold'}
+                color = {gui = 'bold'}
             }
         },
         lualine_x = {
-            {
-                function()
-                    if diagnostic_toggle then
-                        return 'd'
-                    else
-                        return ' '
-                    end
-                end,
-                color = function()
-                    if diagnostic_toggle then
-                        return {fg = nord.nord1_gui, bg = nord.nord9_gui}
-                    else
-                        return {fg = nord.nord4_gui, bg = nord.nord1_gui}
-                    end
-                end,
-            },
             {'filetype', colored = false}
         },
         lualine_y = {'progress'},
@@ -793,21 +780,22 @@ nnoremap <leader>h :nohlsearch<cr>
 
 " Scrollbar TODO come back when more developed
 lua << EOF
-local nord = require("nord.colors")
+local configuration = vim.fn['everforest#get_configuration']()
+local palette = vim.fn['everforest#get_palette'](configuration.background, configuration.colors_override)
 require("scrollbar").setup{
     show = true,
     handle = {
         text = " ",
-        color = nord.nord1_gui,
+        color = palette.bg0[1],
         hide_if_all_visible = true, -- Hides handle if all lines are visible
     },
     marks = {
-        Search = { text = { "-", "=" }, priority = 0, color = nord.nord8_gui },
-        Error = { text = { "-", "=" }, priority = 1, color = nord.nord11_gui },
-        Warn = { text = { "-", "=" }, priority = 2, color = nord.nord12_gui },
-        Info = { text = { "-", "=" }, priority = 3, color = nord.nord13_gui },
-        Hint = { text = { "-", "=" }, priority = 4, color = nord.nord14_gui },
-        Misc = { text = { "-", "=" }, priority = 5, color = nord.nord15_gui },
+        Search = { text = { "-", "=" }, priority = 0, color = palette.green[1] },
+        Error  = { text = { "-", "=" }, priority = 1, color = palette.red[1] },
+        Warn   = { text = { "-", "=" }, priority = 2, color = palette.orange[1] },
+        Info   = { text = { "-", "=" }, priority = 3, color = palette.yellow[1] },
+        Hint   = { text = { "-", "=" }, priority = 4, color = palette.blue[1] },
+        Misc   = { text = { "-", "=" }, priority = 5, color = palette.purple[1] },
     },
     handlers = {
         diagnostic = true,
