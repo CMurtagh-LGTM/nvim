@@ -4,7 +4,6 @@ return {
     branch = '0.1.x',
     dependencies = {
       'nvim-lua/plenary.nvim',
-      'debugloop/telescope-undo.nvim',
       'nvim-telescope/telescope-file-browser.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
       {
@@ -46,7 +45,7 @@ return {
           buffers = {
             mappings = {
               n = {
-                ["D"] = require("telescope.actions").delete_buffer + require("telescope.actions").move_to_top
+                ["D"] = require("telescope.actions").delete_buffer + require("telescope.actions").move_to_bottom
               },
             },
           },
@@ -66,7 +65,6 @@ return {
 
       -- Enable telescope fzf native, if installed
       pcall(require('telescope').load_extension, 'fzf')
-      require 'telescope'.load_extension('undo')
       require("telescope").load_extension("file_browser")
       require("telescope").load_extension("ui-select")
 
@@ -94,7 +92,6 @@ return {
       vim.keymap.set('n', '<leader>fg', require('telescope.builtin').live_grep, { desc = '[S]earch by [G]rep' })
       vim.keymap.set('n', '<leader>fq', require('telescope.builtin').diagnostics, { desc = '[S]earch [D]iagnostics' })
       vim.keymap.set('n', '<leader>fr', require('telescope.builtin').resume, { desc = '[S]earch [R]esume' })
-      vim.keymap.set("n", "<leader>fu", require("telescope").extensions.undo.undo, { desc = '[U]ndo Tree' })
       vim.keymap.set('n', '<leader>fd', require('telescope').extensions.file_browser.file_browser,
         { desc = 'Browse files' })
       vim.keymap.set('n', '<leader>fb', require('telescope.builtin').buffers, { desc = 'Browse Buffers' })

@@ -1,19 +1,18 @@
 -- document existing key chains
-require('which-key').register {
-  ['<leader>b'] = { name = 'Buffer', _ = 'which_key_ignore' },
-  ['<leader>c'] = { name = 'Comment', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = 'Document', _ = 'which_key_ignore' },
-  ['<leader>f'] = { name = 'Find', _ = 'which_key_ignore' },
-  ['<leader>p'] = { name = 'Peek', _ = 'which_key_ignore' },
-  ['<leader>q'] = { name = 'Diagnostics', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = 'Replace', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = 'Split', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = 'Workspace', _ = 'which_key_ignore' },
+local wk = require("which-key")
+wk.add {
+  { "<leader>b", group = "Buffer" },
+  { "<leader>c", group = "Comment" },
+  { "<leader>C", group = "Calls" },
+  { "<leader>d", group = "Document" },
+  { "<leader>f", group = "Find" },
+  { "<leader>p", group = "Peek" },
+  { "<leader>q", group = "Diagnostics" },
+  { "<leader>r", group = "Replace" },
+  { "<leader>s", group = "Split" },
+  { "<leader>w", group = "Workspace" },
+  { "<leader>", group = "VISUAL <leader>", mode = "v" },
 }
--- register which-key VISUAL mode
-require('which-key').register({
-  ['<leader>'] = { name = 'VISUAL <leader>' },
-}, { mode = 'v' })
 
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 
@@ -38,8 +37,8 @@ vim.keymap.set("n", "x", '"_x')
 vim.keymap.set("n", "c", '"_c')
 
 -- Better movement
-vim.keymap.set("n", "J", "}", { desc = "Next empty line" })
-vim.keymap.set("n", "K", "{", { desc = "Previous empty line" })
+vim.keymap.set("n", "J", "", { desc = "Bah" })
+--vim.keymap.set("n", "K", "{", { desc = "Previous empty line" })
 vim.keymap.set("n", "H", "0^", { desc = "Start of line" })
 vim.keymap.set("n", "L", "$", { desc = "End of line" })
 vim.keymap.set("n", "M", "J", { desc = "Merge" })

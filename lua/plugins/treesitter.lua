@@ -4,7 +4,6 @@ return {
     'nvim-treesitter/nvim-treesitter',
     dependencies = {
       'nvim-treesitter/nvim-treesitter-textobjects',
-      -- 'RRethy/nvim-treesitter-textsubjects', -- TODO config
     },
     build = ':TSUpdate',
     event = "VeryLazy",
@@ -59,15 +58,6 @@ return {
               ['[T'] = '@class.outer',
             },
           },
-          swap = {
-            enable = true,
-            swap_next = {
-              ['<leader>a'] = '@parameter.inner',
-            },
-            swap_previous = {
-              ['<leader>A'] = '@parameter.inner',
-            },
-          },
           lsp_interop = {
             enable = true,
             border = 'none',
@@ -90,7 +80,7 @@ return {
     },
   },
 
-  { -- TODO how does this interact with nvim-treesitter-textsubjects
+  {
     'Wansmer/sibling-swap.nvim',
     requires = { 'nvim-treesitter' },
     opts = {

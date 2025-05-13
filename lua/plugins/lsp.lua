@@ -1,249 +1,188 @@
 return {
   {
     -- LSP Configuration & Plugins
-    'neovim/nvim-lspconfig',
+    'williamboman/mason-lspconfig.nvim',
     dependencies = {
       -- Automatically install LSPs to stdpath for neovim
       { 'williamboman/mason.nvim', config = true },
-      'williamboman/mason-lspconfig.nvim',
 
       -- Useful status updates for LSP
       { 'j-hui/fidget.nvim',       opts = {} },
-
-      -- Additional lua configuration, makes nvim stuff amazing!
-      'folke/neodev.nvim',
     },
 
     config = function()
-      -- TODO call hierarchy
-      local call_hierarchy_handler = function(direction)
-        return function(_, result)
-          if not result then
-            return
-          end
-          local items = {}
-          for _, call_hierarchy_call in pairs(result) do
-            local call_hierarchy_item = call_hierarchy_call[direction]
-            for _, range in pairs(call_hierarchy_call.fromRanges) do
-              table.insert(items, {
-                filename = assert(vim.uri_to_fname(call_hierarchy_item.uri)),
-                text = call_hierarchy_item.name,
-                lnum = range.start.line + 1,
-                col = range.start.character + 1,
-              })
-              vim.print(call_hierarchy_item.uri)
+      vim.api.nvim_create_autocmd('LspAttach', {
+        group = vim.api.nvim_create_augroup('my.lsp', {}),
+        callback = function(args)
+          local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+
+          local nmap = function(keys, func, desc)
+            if desc then
+              desc = 'LSP: ' .. desc
             end
-          end
-          --vim.fn.setqflist({}, ' ', { title = 'LSP call hierarchy', items = items })
-          --api.nvim_command('botright copen')
-        end
-      end
 
-      vim.lsp.handlers["callHierarchy/incomingCalls"] = call_hierarchy_handler('from')
-      vim.lsp.handlers["callHierarchy/outgoingCalls"] = call_hierarchy_handler('to')
-      vim.lsp.handlers["textDocument/definition"] = require('telescope.builtin').lsp_definitions
-      vim.lsp.handlers["textDocument/references"] = require('telescope.builtin').lsp_references
-      vim.lsp.handlers["textDocument/typeDefinition"] = require('telescope.builtin').lsp_type_definitions
-      vim.lsp.handlers["textDocument/implementation"] = require('telescope.builtin').lsp_implementations
-      vim.lsp.handlers["textDocument/documentSymbol"] = require('telescope.builtin').lsp_document_symbols
-      vim.lsp.handlers["textDocument/workspaceSymbol"] = require('telescope.builtin').lsp_workspace_symbols
-
-      -- Clang TODO move to on_attach
-      vim.keymap.set('n', '<leader>dH', '<cmd>ClangdSwitchSourceHeader<cr>', { desc = "Switch source header" })
-
-      --  This function gets run when an LSP connects to a particular buffer.
-      local on_attach = function(client, bufnr)
-        local _ = client
-        -- client.server_capabilities TODO gaurd binds by capabilities
-        local nmap = function(keys, func, desc)
-          if desc then
-            desc = 'LSP: ' .. desc
+            vim.keymap.set('n', keys, func, { buffer = args.buf, desc = desc })
           end
 
-          vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
-        end
 
-        nmap('gd', vim.lsp.buf.definition, 'Goto Definition')
-        nmap('gr', vim.lsp.buf.references, 'Goto References')
-        nmap('gD', vim.lsp.buf.type_definition, 'Type Definition')
-        nmap('gI', vim.lsp.buf.implementation, 'Goto Implementation')
-        nmap('<leader>ds', vim.lsp.buf.document_symbol, 'Document Symbols') -- Ariel?
-        nmap('<leader>ws', vim.lsp.buf.workspace_symbol, 'Workspace Symbols')
+          if client:supports_method("textDocument/references") then
+            nmap('grr', require('telescope.builtin').lsp_references, 'Goto References')
+          end
+          if client:supports_method("textDocument/implementation") then
+            nmap('gri', require('telescope.builtin').lsp_implementations, 'Goto Implementation')
+          end
+          if client:supports_method('textDocument/definition') then
+            nmap('grd', require('telescope.builtin').lsp_definitions, 'Goto Definition')
+            nmap(
+              '<leader>sd',
+              function()
+                vim.cmd.vsplit()
+                vim.cmd.wincmd("l")
+                vim.lsp.buf.definitions()
+              end,
+              'Split goto definition')
+          end
+          if client:supports_method('textDocument/typeDefinition') then
+            nmap('grD', require('telescope.builtin').lsp_type_definitions, 'Type Definition')
+          end
+          -- if client:supports_method('textDocument/declaration') then
+          --   nmap('grs', require('telescope.builtin').lsp_declaration 'Type Declaration')
+          -- end
+          if client:supports_method('textDocument/documentSymbol') then
+            nmap('<leader>ds', vim.lsp.buf.document_symbol, 'Document Symbols') -- Ariel?
+          end
+          if client:supports_method('textDocument/workspaceSymbol') then
+            nmap('<leader>ws', vim.lsp.buf.workspace_symbol, 'Workspace Symbols')
+          end
 
-        nmap(
-          '<leader>sd',
-          function()
-            vim.cmd.vsplit()
-            vim.cmd.wincmd("l")
-            vim.lsp.buf.definitions()
-          end,
-          'Split goto definition')
+          -- if client:supports_method('textDocument/signatureHelp') then
+          --   nmap('<C-s>', vim.lsp.buf.signature_help, 'Signature Documentation')
+          --   -- insert mode is default
+          -- end
 
-        nmap('<leader>k', vim.lsp.buf.hover, 'Hover Documentation')
-        nmap('<C-k>', vim.lsp.buf.signature_help, 'Signature Documentation')
-        vim.keymap.set('i', '<C-k>', vim.lsp.buf.signature_help, { buffer = bufnr, desc = "Signature Documentation" })
+          if client:supports_method('textDocument/documentHighlight') then
+            nmap('<leader>3', vim.lsp.buf.document_highlight, 'Document highlight')
+            nmap('<leader>#', vim.lsp.buf.clear_references, 'Document unhighlight')
+          end
+          if client:supports_method('callHierarchy/outgoingCalls') then
+            nmap('<leader>Co', vim.lsp.buf.outgoing_calls, 'Outgoing calls')
+          end
+          if client:supports_method('callHierarchy/incomingCalls') then
+            nmap('<leader>Ci', vim.lsp.buf.incoming_calls, 'Incoming calls')
+          end
 
-        nmap('<leader>3', vim.lsp.buf.document_highlight, 'Document highlight')
-        nmap('<leader>#', vim.lsp.buf.clear_references, 'Document unhighlight')
-        nmap('<leader>Co', vim.lsp.buf.outgoing_calls, 'Outgoing calls')
-        nmap('<leader>Ci', vim.lsp.buf.incoming_calls, 'Incoming calls')
-
-        -- Lesser used LSP functionality
-        nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-        nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-        nmap('<leader>wl', function()
-          print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-        end, '[W]orkspace [L]ist Folders')
-
-      end
+          if client:supports_method('textDocument/switchSourceHeader') then
+            nmap('<leader>dH', '<cmd>ClangdSwitchSourceHeader<cr>', "Switch source header")
+          end
+        end,
+      })
 
       -- mason-lspconfig requires that these setup functions are called in this order
       -- before setting up the servers.
-      require('mason').setup()
-      require('mason-lspconfig').setup()
 
-      local servers = {
-        clangd = {},
-        pyright = {},
-        cmake = {},
-
-        lua_ls = {
+      vim.lsp.config('lua_ls', {
+        settings = {
           Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
+            runtime = {
+              version = 'LuaJIT',
+            },
+            diagnostics = {
+              globals = {
+                'vim',
+                'require',
+              },
+            },
           },
         },
-      }
+      })
 
-      -- Setup neovim lua configuration
-      require('neodev').setup()
-
-      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
-
-      -- Ensure the servers above are installed
-      local mason_lspconfig = require 'mason-lspconfig'
-
-      mason_lspconfig.setup {
-        ensure_installed = vim.tbl_keys(servers),
-      }
-
-      mason_lspconfig.setup_handlers {
-        function(server_name)
-          require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = servers[server_name],
-            filetypes = (servers[server_name] or {}).filetypes,
+      vim.lsp.config('clangd', {
+        root_markers = { '.clang-format', 'compile_commands.json' },
+        capabilities = {
+          textDocument = {
+            completion = {
+              completionItem = {
+                snippetSupport = true,
+              }
+            }
           }
-        end,
+        }
+      })
+
+      require('mason').setup()
+      require('mason-lspconfig').setup {
+        automatic_enable = false,
+        ensure_installed = { "lua_ls", "pyright", "cmake" },
       }
+
+      vim.lsp.enable({ "lua_ls", "pyright", "cmake", "clangd" })
+
+      vim.lsp.handlers["textDocument/documentSymbol"] = require('telescope.builtin').lsp_document_symbols
+      vim.lsp.handlers["textDocument/workspaceSymbol"] = require('telescope.builtin').lsp_workspace_symbols
     end,
   },
 
   {
     -- Autocompletion
-    'hrsh7th/nvim-cmp',
+    'saghen/blink.cmp',
     dependencies = {
-      -- Snippet Engine & its associated nvim-cmp source
-      'L3MON4D3/LuaSnip',
-      'saadparwaiz1/cmp_luasnip',
-
-      -- Adds LSP completion capabilities
-      {
-        'hrsh7th/cmp-nvim-lsp',
-        dependencies = { 'neovim/nvim-lspconfig' },
-      },
-      'FelipeLema/cmp-async-path',
-
-      -- Adds a number of user-friendly snippets
       'rafamadriz/friendly-snippets',
-
-      -- Command line
-      'hrsh7th/cmp-cmdline',
+      "xzbdmw/colorful-menu.nvim",
     },
-    config = function()
-      -- [[ Configure nvim-cmp ]]
-      -- See `:help cmp`
-      local cmp = require 'cmp'
-      local luasnip = require 'luasnip'
-      require('luasnip.loaders.from_vscode').lazy_load()
-      luasnip.config.setup {}
+    version = '1.*',
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      -- All presets have the following mappings:
+      -- C-space: Open menu or open docs if already open
+      -- C-n/C-p or Up/Down: Select next/previous item
+      -- C-e: Hide menu
+      -- C-k: Toggle signature help (if signature.enabled = true)
+      -- See :h blink-cmp-config-keymap for defining your own keymap
+      keymap = { preset = 'super-tab' },
 
-      cmp.setup.cmdline(':', {
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          {
-            name = 'cmdline',
-            option = {
-              ignore_cmds = { 'Man', '!' }
-            }
-          }
-        })
-      })
+      appearance = {
+        nerd_font_variant = 'mono'
+      },
 
-      cmp.setup {
-        snippet = {
-          expand = function(args)
-            luasnip.lsp_expand(args.body)
-          end,
-        },
-        completion = {
-          completeopt = 'menuone,noselect,preview',
-        },
-        mapping = cmp.mapping {
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-y>'] = cmp.mapping({
-            i = function(fallback)
-              if cmp.visible() and cmp.get_active_entry() then
-                cmp.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = false })
-              else
-                fallback()
-              end
-            end,
-            s = cmp.mapping.confirm({ select = true }),
-            c = cmp.mapping.confirm({ behavior = cmp.ConfirmBehavior.Insert, select = true }),
-          }),
-          ['<Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.expand_or_locally_jumpable() then
-              luasnip.expand_or_jump()
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<S-Tab>'] = cmp.mapping(function(fallback)
-            if luasnip.locally_jumpable(-1) then
-              luasnip.jump(-1)
-            else
-              fallback()
-            end
-          end, { 'i', 's' }),
-          ['<Down>'] = {
-            i = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+      completion = {
+        keyword = { range = 'full' },
+        documentation = { auto_show = true, auto_show_delay_ms = 500 },
+        menu = {
+          draw = {
+            -- We don't need label_description now because label and label_description are already
+            -- combined together in label by colorful-menu.nvim.
+            columns = { { "kind_icon" }, { "label", gap = 1 } },
+            components = {
+              label = {
+                text = function(ctx)
+                  return require("colorful-menu").blink_components_text(ctx)
+                end,
+                highlight = function(ctx)
+                  return require("colorful-menu").blink_components_highlight(ctx)
+                end,
+              },
+            },
           },
-          ['<Up>'] = {
-            i = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
-          },
-        },
-        sources = {
-          { name = 'nvim_lsp',   group_index = 1 },
-          { name = 'luasnip',    group_index = 1 },
-          { name = 'doxygen',    group_index = 2 },
-          { name = 'async_path', group_index = 2 },
-          { name = 'buffer',     group_index = 3 },
-        },
-      }
-    end,
+        }
+      },
+
+      sources = {
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
+      },
+
+      fuzzy = { implementation = "prefer_rust_with_warning" },
+
+      signature = { enabled = true },
+    },
+    opts_extend = { "sources.default" }
   },
 
 
   {
     'stevearc/conform.nvim',
     dependencies = {
-      'neovim/nvim-lspconfig',
+      'neovim/nvim-lspconfig', -- TODO remove this
     },
     opts = {},
     keys = {
@@ -281,31 +220,9 @@ return {
   },
 
   {
-    'rmagatti/goto-preview',
-    opts = {},
-    keys = {
-      { "<leader>pd", mode = "n", function() require("goto-preview").goto_preview_definition() end, desc = "Peek Definition" },
-      { "<leader>pr", mode = "n", function() require("goto-preview").goto_preview_references() end, desc = "Peek References" },
-    },
-    -- TODO
-    -- post_open_hook = function(buf, win)
-    --         local orig_state = vim.api.nvim_buf_get_option(buf, 'modifiable')
-    --         vim.api.nvim_buf_set_option(buf, 'modifiable', false)
-    --         vim.api.nvim_create_autocmd({ 'WinLeave' }, {
-    --             buffer = buf,
-    --             callback = function()
-    --                 vim.api.nvim_win_close(win, false)
-    --                 vim.api.nvim_buf_set_option(buf, 'modifiable', orig_state)
-    --                 return true
-    --             end,
-    --         })
-    --     end
-  },
-
-  {
     "SmiteshP/nvim-navic",
     dependencies = {
-      "neovim/nvim-lspconfig",
+      "neovim/nvim-lspconfig", -- TODO remove this
     },
     opts = {
       lsp = {
@@ -313,5 +230,27 @@ return {
       },
       highlight = true,
     },
+  },
+
+  {
+    "zbirenbaum/neodim",
+    event = "LspAttach",
+    opts = {
+      refresh_delay = 75,
+      alpha = 0.75,
+      blend_color = "#2D353B", -- TODO make this background colour from plugin
+      hide = {
+        underline = true,
+        virtual_text = true,
+        signs = true,
+      },
+      regex = {
+        "[uU]nused",
+        "[nN]ever [rR]ead",
+        "[nN]ot [rR]ead",
+      },
+      priority = 128,
+      disable = {},
+    }
   },
 }

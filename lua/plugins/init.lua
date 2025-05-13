@@ -87,15 +87,15 @@ return {
     },
   },
 
+
   {
-    -- TODO v0.10 lewis6991/satellite.nvim
-    'dstein64/nvim-scrollview',
+    'lewis6991/satellite.nvim',
     opts = {
-      signs_on_startup = {},
+      winblend = 0,
     },
     config = function(_, opts)
-      require 'scrollview'.setup(opts)
-      vim.api.nvim_set_hl(0, 'ScrollView', { bg = "#475258" })
+      require 'satellite'.setup(opts)
+      vim.api.nvim_set_hl(0, 'SatelliteBar', { bg = "#475258" })
     end
   },
 
@@ -166,23 +166,12 @@ return {
       messages = {
         view_search = false,
       },
-      popupmenu = {
-        backend = "cmp", -- command completion
-      },
       lsp = {
         -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
         override = {
           ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
           ["vim.lsp.util.stylize_markdown"] = true,
           ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
-        },
-        signature = {
-          opts = {
-            size = {
-              height = 1,
-            },
-            scrollbar = false,
-          },
         },
       },
       presets = {
@@ -201,21 +190,6 @@ return {
         }
       },
       "smjonas/inc-rename.nvim",
-    },
-  },
-
-  {
-    -- TODO just use quickfix list
-    "folke/trouble.nvim",
-    dependencies = { "nvim-tree/nvim-web-devicons" },
-    opts = {
-      position = "top",
-    },
-    keys = {
-      { "<leader>qd", mode = "n", function() require("trouble").toggle("workspace_diagnostics") end, desc = "Open diagnositcs list" },
-      { "<leader>qq", mode = "n", function() require("trouble").toggle("quickfix") end,              desc = "Open quickfix list" },
-      { "<leader>ql", mode = "n", function() require("trouble").toggle("quickfix") end,              desc = "Open loclist list" },
-      { "<leader>qr", mode = "n", function() require("trouble").toggle("lsp_references") end,        desc = "Open references list" },
     },
   },
 
