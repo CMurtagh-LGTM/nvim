@@ -192,6 +192,10 @@ return {
       fuzzy = { implementation = "prefer_rust_with_warning" },
 
       signature = { enabled = true },
+
+      cmdline = {
+        enabled = false, -- crashes
+      },
     },
     opts_extend = { "sources.default" }
   },
