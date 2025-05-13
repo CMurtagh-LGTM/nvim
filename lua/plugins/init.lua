@@ -149,6 +149,7 @@ return {
     keys = {
       { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end,              desc = "Flash" },
       { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter_search() end, desc = "Flash Treesitter Search" },
+      { "r", mode = "o",               function() require("flash").remote() end,            desc = "Remote Flash" },
     },
   },
 
@@ -309,4 +310,24 @@ return {
       disabled_modes = { 't', 'nt' },
     },
   },
+
+{
+  "bassamsdata/namu.nvim",
+  config = function()
+    require("namu").setup({
+      namu_symbols = {
+        enable = true,
+        options = {},
+      },
+    })
+    vim.keymap.set("n", "<leader>dd",":Namu symbols<cr>" , {
+      desc = "Jump to LSP symbol",
+      silent = true,
+    })
+    vim.keymap.set("n", "<leader>dD", ":Namu workspace<cr>", {
+      desc = "LSP Symbols - Workspace",
+      silent = true,
+    })
+  end,
+}
 }

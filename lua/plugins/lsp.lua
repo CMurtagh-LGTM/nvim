@@ -144,7 +144,6 @@ return {
     -- Autocompletion
     'saghen/blink.cmp',
     dependencies = {
-      'rafamadriz/friendly-snippets',
       "xzbdmw/colorful-menu.nvim",
     },
     version = '1.*',
