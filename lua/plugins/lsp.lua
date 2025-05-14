@@ -10,6 +10,7 @@ return {
             { 'j-hui/fidget.nvim',       opts = {} },
 
             "ibhagwan/fzf-lua",
+            "neovim/nvim-lspconfig",
         },
 
         config = function()
@@ -206,7 +207,7 @@ return {
     {
         'stevearc/conform.nvim',
         dependencies = {
-            'neovim/nvim-lspconfig', -- TODO remove this
+            'neovim/nvim-lspconfig',
         },
         opts = {},
         keys = {
@@ -246,7 +247,7 @@ return {
     {
         "SmiteshP/nvim-navic",
         dependencies = {
-            "neovim/nvim-lspconfig", -- TODO remove this
+            "neovim/nvim-lspconfig",
         },
         opts = {
             lsp = {
