@@ -131,17 +131,33 @@ return {
                 },
             })
 
+            vim.lsp.config('godot', {
+                cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
+                root_markers = { 'project.godot', '.git' },
+                filetypes = { "gdscript", "godot_resource", "gdshader" },
+            })
+
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
                 ensure_installed = { "lua_ls", "cmake" },
             }
 
-            vim.lsp.enable({ "lua_ls", "cmake", "clangd" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols
         end,
+    },
+
+    {
+        "folke/lazydev.nvim",
+        ft = "lua", -- only load on lua files
+        opts = {
+            library = {
+                { path = "${3rd}/luv/library", words = { "vim%.uv" } },
+            },
+        },
     },
 
     {
@@ -189,7 +205,15 @@ return {
             },
 
             sources = {
-                default = { 'lsp', 'path', 'snippets', 'buffer' },
+                default = { 'lazydev', 'lsp', 'path', 'snippets', 'buffer' },
+                providers = {
+                    lazydev = {
+                        name = "LazyDev",
+                        module = "lazydev.integrations.blink",
+                        -- make lazydev completions top priority (see `:h blink.cmp`)
+                        score_offset = 100,
+                    },
+                },
             },
 
             fuzzy = { implementation = "prefer_rust_with_warning" },
