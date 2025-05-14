@@ -134,10 +134,10 @@ return {
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
-                ensure_installed = { "lua_ls", "pyright", "cmake" },
+                ensure_installed = { "lua_ls", "cmake" },
             }
 
-            vim.lsp.enable({ "lua_ls", "pyright", "cmake", "clangd" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols
