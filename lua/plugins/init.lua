@@ -313,6 +313,10 @@ return {
 
   {
     "bassamsdata/namu.nvim",
+    keys = {
+      { "<leader>dd", "<cmd>Namu symbols<cr>", mode = "n", desc = "Jump to LSP symbol" },
+      { "<leader>dD", "<cmd>Namu workspace<cr>", mode = "n", desc = "LSP Symbols - Workspace" },
+    },
     config = function()
       require("namu").setup({
         namu_symbols = {
@@ -323,14 +327,6 @@ return {
             },
           },
         },
-      })
-      vim.keymap.set("n", "<leader>dd", ":Namu symbols<cr>", {
-        desc = "Jump to LSP symbol",
-        silent = true,
-      })
-      vim.keymap.set("n", "<leader>dD", ":Namu workspace<cr>", {
-        desc = "LSP Symbols - Workspace",
-        silent = true,
       })
     end,
   }
