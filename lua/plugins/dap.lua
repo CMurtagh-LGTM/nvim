@@ -24,8 +24,13 @@ return {
       local dap = require("dap")
       dap.adapters.gdb = {
         type = "executable",
-        command = "/tool/pandora64/.package/gdb-16.2/bin/gdb",
+        command = "gdb",
         args = { "--interpreter=dap", "--eval-command", "set print pretty on" }
+      }
+      dap.adapters.godot = {
+        type = "server",
+        host = '127.0.0.1',
+        port = 6006,
       }
 
       dap.configurations = require('dap_launch')
