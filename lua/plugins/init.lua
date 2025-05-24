@@ -388,7 +388,7 @@ return {
 
         map('n', '<leader>hD', function()
           gitsigns.diffthis('~')
-        end, {desc = "digg this against ~"})
+        end, {desc = "diff this against ~"})
 
         -- Toggles
         map('n', '<leader>tb', gitsigns.toggle_current_line_blame, {desc = "toggle current line blame"})
