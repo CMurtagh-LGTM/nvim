@@ -312,26 +312,6 @@ return {
   },
 
   {
-    "bassamsdata/namu.nvim",
-    keys = {
-      { "<leader>dd", "<cmd>Namu symbols<cr>",   mode = "n", desc = "Jump to LSP symbol" },
-      { "<leader>dD", "<cmd>Namu workspace<cr>", mode = "n", desc = "LSP Symbols - Workspace" },
-    },
-    config = function()
-      require("namu").setup({
-        namu_symbols = {
-          enable = true,
-          options = {
-            display = {
-              format = "tree_guides",
-            },
-          },
-        },
-      })
-    end,
-  },
-
-  {
     "lewis6991/gitsigns.nvim",
     cond = function ()
       return #vim.fs.find(".git", { upward = true }) > 0

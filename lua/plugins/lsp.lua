@@ -176,14 +176,23 @@ return {
             -- C-e: Hide menu
             -- C-k: Toggle signature help (if signature.enabled = true)
             -- See :h blink-cmp-config-keymap for defining your own keymap
-            keymap = { preset = 'super-tab' },
+            keymap = { preset = 'default' },
 
             appearance = {
                 nerd_font_variant = 'mono'
             },
 
             completion = {
-                keyword = { range = 'full' },
+                keyword = { range = 'prefix' },
+                list = {
+                    selection = {
+                        preselect = false,
+                        auto_insert = true,
+                    },
+                },
+                accept = {
+                    auto_brackets = { enabled = false, },
+                },
                 documentation = { auto_show = true, auto_show_delay_ms = 500 },
                 menu = {
                     draw = {
