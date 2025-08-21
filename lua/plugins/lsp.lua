@@ -137,13 +137,17 @@ return {
                 filetypes = { "gdscript", "godot_resource", "gdshader" },
             })
 
+            vim.lsp.config('qmlls', {
+                cmd = { "qmlls6", "-E" }
+            })
+
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
                 ensure_installed = { "lua_ls", "cmake" },
             }
 
-            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols
