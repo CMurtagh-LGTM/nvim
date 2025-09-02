@@ -134,7 +134,7 @@ return {
             vim.lsp.config('godot', {
                 cmd = vim.lsp.rpc.connect('127.0.0.1', 6005),
                 root_markers = { 'project.godot', '.git' },
-                filetypes = { "gdscript", "godot_resource", "gdshader" },
+                filetypes = { "gdscript", "godot_resource" },
             })
 
             vim.lsp.config('qmlls', {
@@ -144,10 +144,10 @@ return {
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
-                ensure_installed = { "lua_ls", "cmake" },
+                ensure_installed = { "lua_ls", "cmake", "gdtoolkit" },
             }
 
-            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols
