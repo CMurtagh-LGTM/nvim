@@ -141,13 +141,15 @@ return {
                 cmd = { "qmlls6", "-E" }
             })
 
+            vim.lsp.config('rust_analyzer', {})
+
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
                 ensure_installed = { "lua_ls", "cmake", "gdtoolkit" },
             }
 
-            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp", "rust_analyzer" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols
