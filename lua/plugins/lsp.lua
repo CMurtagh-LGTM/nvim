@@ -143,13 +143,26 @@ return {
 
             vim.lsp.config('rust_analyzer', {})
 
+            vim.lsp.config('zuban', {
+                cmd = { 'zuban', 'server' },
+                filetypes = { 'python' },
+                root_markers = {
+                    'pyproject.toml',
+                    'setup.py',
+                    'setup.cfg',
+                    'requirements.txt',
+                    'Pipfile',
+                    '.git',
+                },
+            })
+
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
-                ensure_installed = { "lua_ls", "cmake", "gdtoolkit" },
+                ensure_installed = { "lua_ls", "cmake", "zuban" },
             }
 
-            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp", "rust_analyzer" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp", "rust_analyzer", "zuban" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols

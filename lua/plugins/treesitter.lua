@@ -11,7 +11,7 @@ return {
       -- require('nvim-treesitter.install').compilers = { "/tools/pandora64/.package/gcc-12.2.0/bin/gcc" }
       require('nvim-treesitter.configs').setup {
         ensure_installed = {
-          'c', 'cpp', 'lua', 'python', 'cmake', 'vimdoc', 'vim', 'bash', 'markdown', 'markdown_inline', 'regex', 'gdscript', 'godot_resource', 'gdshader', 'qmljs'
+          'c', 'cpp', 'lua', 'python', 'cmake', 'vimdoc', 'vim', 'bash', 'markdown', 'markdown_inline', 'regex', 'gdscript', 'godot_resource', 'gdshader', 'qmljs', 'rust'
         },
 
         modules = {},
