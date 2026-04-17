@@ -11,6 +11,7 @@ wk.add {
   { "<leader>r", group = "Replace" },
   { "<leader>s", group = "Split" },
   { "<leader>w", group = "Workspace" },
+  { "<leader>h", group = "Git" },
   { "<leader>", group = "VISUAL <leader>", mode = "v" },
 }
 
@@ -21,8 +22,6 @@ vim.keymap.set('n', 'k', "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = tr
 vim.keymap.set('n', 'j', "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 
 -- Diagnostic keymaps
-vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, { desc = 'Go to previous diagnostic message' })
-vim.keymap.set('n', ']d', vim.diagnostic.goto_next, { desc = 'Go to next diagnostic message' })
 vim.keymap.set('n', '<leader>Q', vim.diagnostic.open_float, { desc = 'Preview diagnostic message' })
 
 -- Terminal

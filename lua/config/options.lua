@@ -42,8 +42,6 @@ vim.o.shiftwidth = 4
 vim.o.shiftround = true
 vim.o.expandtab = true
 
--- TODO underline spell
-vim.api.nvim_set_hl(0, 'SpellBad', { bg = "#543A48" })
 vim.o.spelllang = 'en_gb'
 vim.o.spell = true
 

@@ -28,7 +28,7 @@ return {
   },
 
   {
-    'echasnovski/mini.files',
+    'nvim-mini/mini.files',
     version = '*',
     keys = { { '<leader>fd', function() require("mini.files").open() end, mode = "n", desc = "Browse Files" } },
     opts = {

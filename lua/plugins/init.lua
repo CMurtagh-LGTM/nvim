@@ -17,11 +17,16 @@ return {
   },
 
   {
-    -- Add indentation guides even on blank lines
-    'lukas-reineke/indent-blankline.nvim',
-    main = 'ibl',
+    'saghen/blink.indent',
+    --- @module 'blink.indent'
+    --- @type blink.indent.Config
     opts = {
-      scope = { show_start = false, show_end = false },
+      static = {
+        highlights = { 'BlinkIndent' },
+      },
+      scope = {
+        highlights = { 'BlinkIndentScope' },
+      },
     },
   },
 
@@ -161,37 +166,24 @@ return {
   },
 
   {
-    "folke/noice.nvim",
-    event = "VeryLazy",
-    opts = {
-      messages = {
-        view_search = false,
-      },
-      lsp = {
-        -- override markdown rendering so that **cmp** and other plugins use **Treesitter**
-        override = {
-          ["vim.lsp.util.convert_input_to_markdown_lines"] = true,
-          ["vim.lsp.util.stylize_markdown"] = true,
-          ["cmp.entry.get_documentation"] = true, -- requires hrsh7th/nvim-cmp
+    "rachartier/tiny-cmdline.nvim",
+    config = function()
+      require("vim._core.ui2").enable({
+        enable = true,
+      })
+      require("tiny-cmdline").setup({
+        position = {
+          y = "10%",
         },
-      },
-      presets = {
-        command_palette = true, -- position the cmdline and popupmenu together
-        inc_rename = true,
-      },
+        native_types = { },
+        on_reposition = require("tiny-cmdline").adapters.blink,
+    })
+    end,
+  },
 
-    },
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      {
-        "rcarriga/nvim-notify",
-        opts = {
-          timeout = 2000,
-          render = "wrapped-compact",
-        }
-      },
-      "smjonas/inc-rename.nvim",
-    },
+  {
+    "nvim-mini/mini.notify",
+    config = true,
   },
 
   {
@@ -203,7 +195,7 @@ return {
   },
 
   {
-    'echasnovski/mini.hipatterns',
+    'nvim-mini/mini.hipatterns',
     version = '*',
     opts = {
       highlighters = {
@@ -258,14 +250,6 @@ return {
           },
         },
         { type = "padding", val = 20 },
-        {
-          type = "text",
-          val = "TODO",
-          opts = {
-            position = "center",
-            hl = "Number",
-          },
-        },
         { type = "button", val = "" }, -- performance reasons
       },
       opts = {
@@ -333,7 +317,7 @@ return {
           else
             gitsigns.nav_hunk('next')
           end
-        end)
+        end, {desc = "next hunk"})
 
         map('n', '[c', function()
           if vim.wo.diff then
@@ -341,7 +325,7 @@ return {
           else
             gitsigns.nav_hunk('prev')
           end
-        end)
+        end, {desc = "previous hunk"})
 
         -- Actions
         map('n', '<leader>hs', gitsigns.stage_hunk, {desc = "stage hunk"})

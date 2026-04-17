@@ -1,13 +1,10 @@
 return {
     {
         -- LSP Configuration & Plugins
-        'williamboman/mason-lspconfig.nvim',
+        'mason-org/mason-lspconfig.nvim',
         dependencies = {
             -- Automatically install LSPs to stdpath for neovim
-            { 'williamboman/mason.nvim', config = true },
-
-            -- Useful status updates for LSP
-            { 'j-hui/fidget.nvim',       opts = {} },
+            { 'mason-org/mason.nvim', config = true },
 
             "ibhagwan/fzf-lua",
             "neovim/nvim-lspconfig",
@@ -184,8 +181,9 @@ return {
         'saghen/blink.cmp',
         dependencies = {
             "xzbdmw/colorful-menu.nvim",
+            "saghen/blink.lib"
         },
-        version = '1.*',
+        build = "cargo build --release",
         ---@module 'blink.cmp'
         ---@type blink.cmp.Config
         opts = {
@@ -247,20 +245,14 @@ return {
             fuzzy = { implementation = "prefer_rust_with_warning" },
 
             signature = { enabled = true },
-
-            cmdline = {
-                enabled = false, -- crashes
-            },
         },
         opts_extend = { "sources.default" }
     },
 
 
     {
+        -- TODO update config to new version
         'stevearc/conform.nvim',
-        dependencies = {
-            'neovim/nvim-lspconfig',
-        },
         opts = {},
         keys = {
             { "<leader>df", mode = "n", function() require("conform").format({ async = true, lsp_fallback = true }) end, desc = "Format" },
@@ -331,3 +323,5 @@ return {
         }
     },
 }
+
+-- TODO check nvim-navbuddy

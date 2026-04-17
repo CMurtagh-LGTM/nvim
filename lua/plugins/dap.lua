@@ -12,11 +12,6 @@ return {
               enabled = true,
             },
           },
-          windows = {
-            terminal = {
-              start_hidden = true,
-            },
-          },
         }
       },
     },
