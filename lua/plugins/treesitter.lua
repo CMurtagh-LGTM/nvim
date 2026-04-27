@@ -3,7 +3,7 @@ return {
     "romus204/tree-sitter-manager.nvim",
     opts = {
         ensure_installed = {
-          'c', 'cpp', 'lua', 'python', 'cmake', 'vimdoc', 'vim', 'bash', 'markdown', 'markdown_inline', 'regex', 'gdscript', 'godot_resource', 'gdshader', 'qmljs', 'rust'
+          'c', 'cpp', 'lua', 'python', 'cmake', 'vimdoc', 'vim', 'bash', 'markdown', 'markdown_inline', 'regex', 'gdscript', 'godot_resource', 'gdshader', 'qmljs', 'rust', 'meson'
         },
     },
   },

@@ -156,10 +156,10 @@ return {
             require('mason').setup()
             require('mason-lspconfig').setup {
                 automatic_enable = false,
-                ensure_installed = { "lua_ls", "cmake", "zuban" },
+                ensure_installed = { "lua_ls", "cmake", "zuban", "mesonlsp" },
             }
 
-            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp", "rust_analyzer", "zuban" })
+            vim.lsp.enable({ "lua_ls", "cmake", "clangd", "godot", "qmlls", "gdshader_lsp", "rust_analyzer", "zuban", "mesonlsp" })
 
             vim.lsp.handlers["textDocument/documentSymbol"] = fzf.lsp_document_symbols
             vim.lsp.handlers["textDocument/workspaceSymbol"] = fzf.lsp_workspace_symbols
@@ -280,11 +280,14 @@ return {
     },
 
     {
-        "aznhe21/actions-preview.nvim",
-        opts = {},
+        "rachartier/tiny-code-action.nvim",
+        event = "LspAttach",
+        opts = {
+            picker = "fzf-lua",
+        },
         keys = {
             -- Should set up a lsp handler instead
-            { "<leader>da", mode = "n", function() require("actions-preview").code_actions() end, desc = 'Code Action' },
+            { "<leader>da", mode = "n", function() require("tiny-code-action").code_action() end, desc = 'Code Action' },
         },
     },
 

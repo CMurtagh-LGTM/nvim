@@ -30,7 +30,6 @@ require('lazy').setup(
       rtp = {
         disabled_plugins = {
           "netrwPlugin",
-          "tohtml",
           "tutor",
         }
       }
@@ -53,6 +52,9 @@ end
 safeRequire("config.options")
 safeRequire("config.keymaps")
 safeRequire("config.autocmds")
+if vim.g.neovide then
+  safeRequire("config.neovide")
+end
 
 
 -- TODO Recoalesce compile_commands

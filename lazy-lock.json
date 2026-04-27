@@ -1,6 +1,5 @@
 {
   "Comment.nvim": { "branch": "master", "commit": "e30b7f2008e52442154b66f7c519bfd2f1e32acb" },
-  "actions-preview.nvim": { "branch": "master", "commit": "2b604b2e8e662c03b716436f6ffebcb19663e66a" },
   "alpha-nvim": { "branch": "main", "commit": "7563da4a861ee6b3ed674d0ee5c5c0bd19383a38" },
   "blink.cmp": { "branch": "main", "commit": "c573a15a62bd0bfd4006ee0849b24f5404395500" },
   "blink.indent": { "branch": "main", "commit": "9c80820ca77218a8d28e70075d6f44a1609911fe" },
@@ -34,6 +33,7 @@
   "scrollEOF.nvim": { "branch": "master", "commit": "e462b9a07b8166c3e8011f1dcbc6bf68b67cd8d7" },
   "search-replace.nvim": { "branch": "main", "commit": "d92290a02d97f4e9b8cd60d28b56b403432158d5" },
   "tiny-cmdline.nvim": { "branch": "main", "commit": "ad58747b955d0743ccfd56e97da1a4c1fac89f58" },
+  "tiny-code-action.nvim": { "branch": "main", "commit": "9f4b05c2f93f76a7bd517d9587ad0dc73cca0d0d" },
   "tree-sitter-manager.nvim": { "branch": "main", "commit": "fa63bc63ae08b661843d9976a43becfbd3daf76c" },
   "vim-sleuth": { "branch": "master", "commit": "be69bff86754b1aa5adcbb527d7fcd1635a84080" },
   "which-key.nvim": { "branch": "main", "commit": "3aab2147e74890957785941f0c1ad87d0a44c15a" }
