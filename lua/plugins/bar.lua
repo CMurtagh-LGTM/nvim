@@ -81,60 +81,7 @@ return {
           "ModeChanged",
           callback = TablineUpdateCallback,
         },
-      }    
-
-      -- local Diagnostics = {
-
-      --   condition = conditions.has_diagnostics,
-
-      --   static = {
-      --     error_icon = vim.fn.sign_getdefined("DiagnosticSignError")[1].text,
-      --     warn_icon = vim.fn.sign_getdefined("DiagnosticSignWarn")[1].text,
-      --     info_icon = vim.fn.sign_getdefined("DiagnosticSignInfo")[1].text,
-      --     hint_icon = vim.fn.sign_getdefined("DiagnosticSignHint")[1].text,
-      --   },
-
-      --   init = function(self)
-      --     self.errors = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.ERROR })
-      --     self.warnings = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.WARN })
-      --     self.hints = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.HINT })
-      --     self.info = #vim.diagnostic.get(0, { severity = vim.diagnostic.severity.INFO })
-      --   end,
-
-      --   update = { "DiagnosticChanged", "BufEnter" },
-
-      --   {
-      --     provider = "![",
-      --   },
-      --   {
-      --     provider = function(self)
-      --       -- 0 is just another output, we can decide to print it or not!
-      --       return self.errors > 0 and (self.error_icon .. self.errors .. " ")
-      --     end,
-      --     hl = { fg = "diag_error" },
-      --   },
-      --   {
-      --     provider = function(self)
-      --       return self.warnings > 0 and (self.warn_icon .. self.warnings .. " ")
-      --     end,
-      --     hl = { fg = "diag_warn" },
-      --   },
-      --   {
-      --     provider = function(self)
-      --       return self.info > 0 and (self.info_icon .. self.info .. " ")
-      --     end,
-      --     hl = { fg = "diag_info" },
-      --   },
-      --   {
-      --     provider = function(self)
-      --       return self.hints > 0 and (self.hint_icon .. self.hints)
-      --     end,
-      --     hl = { fg = "diag_hint" },
-      --   },
-      --   {
-      --     provider = "]",
-      --   },
-      -- }
+      }
 
       local MacroRec = {
         condition = function()
@@ -155,21 +102,21 @@ return {
         }
       }
 
-      -- local SearchCount = {
-      --   condition = function()
-      --     return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
-      --   end,
-      --   init = function(self)
-      --     local ok, search = pcall(vim.fn.searchcount)
-      --     if ok and search.total then
-      --       self.search = search
-      --     end
-      --   end,
-      --   provider = function(self)
-      --     local search = self.search
-      --     return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
-      --   end,
-      -- }
+      local SearchCount = {
+        condition = function()
+          return vim.v.hlsearch ~= 0 and vim.o.cmdheight == 0
+        end,
+        init = function(self)
+          local ok, search = pcall(vim.fn.searchcount)
+          if ok and search.total then
+            self.search = search
+          end
+        end,
+        provider = function(self)
+          local search = self.search
+          return string.format("[%d/%d]", search.current, math.min(search.total, search.maxcount))
+        end,
+      }
 
       local FileNameBlock = {
         -- let's first set up some attributes needed by this component and it's children
@@ -289,12 +236,43 @@ return {
         }
       }
 
+      local WorkDir = {
+        provider = function()
+          local cwd = vim.fn.getcwd(0)
+          cwd = vim.fn.fnamemodify(cwd, ":~")
+          if not conditions.width_percent_below(#cwd, 0.25) then
+            cwd = vim.fn.pathshorten(cwd)
+          end
+          return cwd
+        end,
+        hl = { fg = "blue", bold = true },
+      }
+
+      local LSPActive = {
+        condition = conditions.lsp_attached,
+        update = { 'LspAttach', 'LspDetach' },
+
+        -- You can keep it simple,
+        -- provider = " [LSP]",
+
+        -- Or complicate things a bit and get the servers names
+        provider = function()
+          local names = {}
+          for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+            table.insert(names, server.name)
+          end
+          return "[" .. table.concat(names, " ") .. "]"
+        end,
+        hl = { fg = "green", bold = true },
+      }
+
       local Align = { provider = "%=" }
       local Space = { provider = " " }
 
       local StatusLines = {
         utils.surround({ "", "" }, function(self) return self:mode_color() end, { ViMode, hl = { fg = 'black' } }),
-        --Diagnostics,
+        Align,
+        WorkDir,
         Align,
         MacroRec,
         SearchCount,
@@ -327,7 +305,7 @@ return {
 
       require("heirline").setup({
         tabline = StatusLines,
-        winbar = { FileNameBlock, Align, Navic },
+        winbar = { FileNameBlock, Align, Navic, Space, LSPActive, },
         opts = {
           disable_winbar_cb = function(args)
             return conditions.buffer_matches({
