@@ -249,13 +249,8 @@ return {
       }
 
       local LSPActive = {
-        condition = conditions.lsp_attached,
+        condition = function() return conditions.lsp_attached() and conditions.is_active() end,
         update = { 'LspAttach', 'LspDetach' },
-
-        -- You can keep it simple,
-        -- provider = " [LSP]",
-
-        -- Or complicate things a bit and get the servers names
         provider = function()
           local names = {}
           for i, server in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
