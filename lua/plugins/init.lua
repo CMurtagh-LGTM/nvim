@@ -297,9 +297,6 @@ return {
 
   {
     "lewis6991/gitsigns.nvim",
-    cond = function ()
-      return #vim.fs.find(".git", { upward = true }) > 0
-    end,
     opts = {
       on_attach = function(bufnr)
         local gitsigns = require('gitsigns')

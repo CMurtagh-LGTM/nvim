@@ -48,6 +48,8 @@ vim.o.spell = true
 vim.o.scrolloff = 16
 vim.o.sidescrolloff = 8
 
+vim.o.colorcolumn = '120'
+
 -- when scrollbind also do horizontal
 vim.o.scrollopt = 'ver,hor,jump'
 
